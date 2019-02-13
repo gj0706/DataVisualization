@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Birth Rate: Stacked Bar Charts</title>
+    <script src="d3/d3.js"></script>
+</head>
+<body>
+<script src="d3/d3.js"></script>
+<script>
+    // Set the dimensions of the canvas / graph
+    const margin = {top: 30, right: 20, bottom: 30, left: 50},
+        width = 900 - margin.left - margin.right,
+        height = 600 - margin.top - margin.bottom;
+
+    // Adds the svg canvas
+    const svg = d3.select("body")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform","translate(" + margin.left + "," + margin.top + ")");
+
+    // Parse the date / time
+    // var parse = d3.timeParse("%Y");
+
+    // Set x, y and colors
+    const x = d3.scaleTime()
+        .range([0, width]);
+
+    const y = d3.scaleLinear()
+        .range([height, 0]);
+
+    const z = d3.scaleOrdinal()
+        .range(["#1b70fc", "#faff16", "#d50527", "#158940", "#f898fd", "#24c9d7", "#cb9b64", "#866888"]);
+
+
+    // Define the axes
+    const xAxis = d3.axisBottom()
+        .scale(x);
+        // .ticks(5);
+        // .tickFormat(d3.timeFormat("%Y"));
+    const yAxis = d3.axisLeft()
+        .scale(y)
+        .ticks(20);
+
+    //var ages = ["10-14 years", "15-19 years", "20-24 years","25-29 years", "30-34 years", "35-39 years", "40-49 years"];
+
+
+    //load the data
+    // var dataset;
+    d3.csv('birthRate.csv').then(function (data) {
+        data.forEach(function (d) {
+            d.year = +d.year;
+            d.birthRate = +d.birthRate;
+        });
+        // dataset = data;
+
+        let newData = d3.nest().key(item=>item.year).entries(data);
+
+        newData = newData.map(item=>{
+            const newItem = {year: +item.key};
+            item.values.forEach(v=>{
+               newItem[v.age] = v.birthRate;
+            });
+            return newItem;
+        });
+        const ages = d3.keys(newData[0]).splice(1);
+        const stack = d3.stack().keys(ages);
+        const stackedData = stack(newData);
+        debugger
+        // dataset.sort(function (a, b) {
+        //     if (a.date < b.date)
+        //         return -1;
+        //     else if (a.date > b.date)
+        //         return 1;
+        //     else
+        //         return 0;
+        // })
+
+        // x.domain(dataset.map(function (d) {
+        //     return d.year;
+        // }))
+        // y.domain([0, d3.max(dataset, function (d) {
+        //     return d.total;
+        // })]).nice();
+        x.domain(d3.extent(data, function(d) { return d.year; }));
+        y.domain([0, d3.max(data, function (d) {
+            return d.birthRate;
+        })])
+        z.domain(ages);
+
+
+
+        svg.append("g")
+            .attr("class", "axis axis--x")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis);
+
+        svg.append("g")
+            .attr("class", "axis axis--y")
+            .attr("transform", "translate(" + width + ",0)")
+            .call(yAxis);
+
+
+    });
+
+
+
+
+</script>
+</body>
+</html>
