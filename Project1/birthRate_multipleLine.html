@@ -22,6 +22,11 @@ path {
     font-weight: bold;
     text-anchor: middle;
 }
+.line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+}
 
 </style>
 <body>
@@ -32,25 +37,25 @@ path {
 <script>
 
     // Set the dimensions of the canvas / graph
-    const margin = {top: 50, right: 20, bottom: 70, left: 50},
+    const margin = {top: 50, right: 50, bottom: 90, left: 50},
         width = 900 - margin.left - margin.right,
         height = 600 - margin.top - margin.bottom;
 
     // Parse the date / time
 
-    // var parseDate = d3.time.format("%Y").parse;
+    var parse = d3.time.format("%Y").parse;
 
     // Set the ranges
     const x = d3.time.scale().range([0, width]);
-    const y = d3.scale.linear().range([height, 0]);
+    const y = d3.scale.linear().range([height-20, 0]);
     const color = d3.scale.category10();
 
     // Define the axes
     const xAxis = d3.svg.axis().scale(x)
-        .orient("bottom").ticks(5);
+        .orient("bottom").ticks(6);
 
     const yAxis = d3.svg.axis().scale(y)
-        .orient("left").ticks(5);
+        .orient("left").ticks(8);
 
     // Define the line
     const valueline = d3.svg.line()
@@ -68,15 +73,15 @@ path {
 
     // get the data
     d3.csv("birthRate.csv", function(error, data) {
-        data.forEach(function(d) {
-            d.date = +d.year;
+        data.forEach(function (d) {
+            d.date = parse(d.year);
             d.birthRate = +d.birthRate;
         });
 
-        data.sort(function(a,b){
-            if (a.date<b.date)
+        data.sort(function (a, b) {
+            if (a.date < b.date)
                 return -1;
-            else if (a.dater>b.date)
+            else if (a.dater > b.date)
                 return 1;
             else
                 return 0;
@@ -84,37 +89,43 @@ path {
 
         //debugger;
         // Scale the range of the data
-        x.domain(d3.extent(data, function(d) { return d.date; }));
-        y.domain([0, d3.max(data, function(d) { return d.birthRate; })]);
+        x.domain(d3.extent(data, function (d) {
+            return d.date;
+        }));
+        y.domain([0, d3.max(data, function (d) {
+            return d.birthRate;
+        })]).nice();
 
         // nest the entries by age groups
-        let newData = d3.nest().key(item=>item.age).entries(data);
+        let newData = d3.nest().key(item => item.age).entries(data);
 
         //spacing for the legend
-        legendSpace = width/newData.length;
+        legendSpace = width / newData.length;
 
         // loop through each age/key
-        newData.forEach(function (d,i){
+        newData.forEach(function (d, i) {
             svg.append("path")
                 .attr("class", "line")
-                .style("stroke",function(){
-                    return d.color = color(d.key);})
-                .attr("id", 'tag'+d.key.replace(/\s+/g, '')) // assign ID **
+                .style("stroke", function () {
+                    return d.color = color(d.key);
+                })
+                .attr("id", 'tag' + d.key.replace(/\s+/g, '')) // assign ID **
                 .attr("d", valueline(d.values));
 
             // add the legend
             svg.append("text")
-                .attr("x", (legendSpace/2)+i*legendSpace) // spacing
-                .attr("y", height + (margin.bottom/2)+ 5)
+                .attr("x", (legendSpace / 2) + i * legendSpace) // spacing
+                .attr("y", height + (margin.bottom / 2) + 15)
                 .attr("class", "legend")    // style the legend
-                .style("fill", function() { // dynamic colors
-                    return d.color = color(d.key); })
-                .on("click", function(){
+                .style("fill", function () { // dynamic colors
+                    return d.color = color(d.key);
+                })
+                .on("click", function () {
                     // Determine if current line is visible
-                    var active   = d.active ? false : true,
+                    var active = d.active ? false : true,
                         newOpacity = active ? 0 : 1;
                     // Hide or show the elements based on the ID
-                    d3.select("#tag"+d.key.replace(/\s+/g, ''))
+                    d3.select("#tag" + d.key.replace(/\s+/g, ''))
                         .transition().duration(100)
                         .style("opacity", newOpacity);
                     // Update whether or not the elements are active
@@ -122,62 +133,163 @@ path {
                 })
                 .text(d.key);
         });
-        //debugger
-        // Add the valueline path.
-        // svg.append("path")
-        //     .datum(data)
-        //     .attr("class", "line")
-        //     .attr("d", valueline);
-        // let linePath = svg.append("path").datum(data).attr("d", valueline).attr("fill", "none").attr("stroke", "black");
 
-        //Draw circles
-        // svg.selectAll("circle")
-        //     .data(data).enter()
-        //     .append("circle")
-        //     .attr("stroke", "#000")
-        //     .attr("fill", function(d,i){
-        //         if (d.birthRate<50)
-        //             return "#0f0";
-        //         else if (d.birthRate>=50 && d.birthRate<80)
-        //             return "#ff0";
-        //         else
-        //             return "#f00";
-        //     })
-        //     .attr("cx", function(d){
-        //         return x(d.date);
-        //     })
-        //     .attr("cy", function(d){
-        //         return y(d.birthRate);
-        //     })
-        //     .attr("r", function(d){
-        //         return Math.pow(d.birthRate, 0.05);
-        //     });
+        var mouseG = svg.append("g")
+            .attr("class", "mouse-over-effects");
 
-        // draw the title of the chart
-        svg.append("text")
-            .attr("x", (width / 2))
-            .attr("y", 0 - (margin.top / 2))
-            .attr("text-anchor", "middle")
-            .style("font-size", "20px")
-            // .style("text-decoration","underline")
-            .text("Birth Rate for Females by Age Group: United States");
+        mouseG.append("path") // this is the black vertical line to follow mouse
+            .attr("class", "mouse-line")
+            .style("stroke", "black")
+            .style("stroke-width", "1px")
+            .style("opacity", "0");
 
-        // Add the X Axis
-        svg.append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + height + ")")
-            .call(xAxis);
-            // .selectAll("text")
-            // .style("text-anchor","end")
-            // .attr("dx", "-.8em")
-            // .attr("dy", ".15em")
-            // .attr("transform", "rotate(-65)");
+        var lines = document.getElementsByClassName('line');
 
-        // Add the Y Axis
-        svg.append("g")
-            .attr("class", "y axis")
-            .call(yAxis);
+        var mousePerLine = mouseG.selectAll('.mouse-per-line')
+            .data(newData)
+            .enter()
+            .append("g")
+            .attr("class", "mouse-per-line");
+
+        mousePerLine.append("circle")
+            .attr("r", 7)
+            .style("stroke", function (d) {
+                return color(d.key);
+            })
+            .style("fill", "none")
+            .style("stroke-width", "1px")
+            .style("opacity", "0");
+
+        mousePerLine.append("text")
+            .attr("transform", "translate(10,3)");
+
+        mouseG.append('svg:rect') // append a rect to catch mouse movements on canvas
+            .attr('width', width) // can't catch mouse events on a g element
+            .attr('height', height)
+            .attr('fill', 'none')
+            .attr('pointer-events', 'all')
+            .on('mouseout', function () { // on mouse out hide line, circles and text
+                d3.select(".mouse-line")
+                    .style("opacity", "0");
+                d3.selectAll(".mouse-per-line circle")
+                    .style("opacity", "0");
+                d3.selectAll(".mouse-per-line text")
+                    .style("opacity", "0");
+            })
+            .on('mouseover', function () { // on mouse in show line, circles and text
+                d3.select(".mouse-line")
+                    .style("opacity", "1");
+                d3.selectAll(".mouse-per-line circle")
+                    .style("opacity", "1");
+                d3.selectAll(".mouse-per-line text")
+                    .style("opacity", "1");
+            })
+            .on('mousemove', function () { // mouse moving over canvas
+                var mouse = d3.mouse(this);
+                d3.select(".mouse-line")
+                    .attr("d", function () {
+                        var d = "M" + mouse[0] + "," + height;
+                        d += " " + mouse[0] + "," + 0;
+                        return d;
+                    });
+
+                d3.selectAll(".mouse-per-line")
+                    .attr("transform", function (d, i) {
+                        console.log(width / mouse[0])
+                        var xDate = x.invert(mouse[0]),
+                            bisect = d3.bisector(function (d) {
+                                return d.date;
+                            }).right;
+                        idx = bisect(d.values, xDate);
+
+                        var beginning = 0,
+                            end = lines[i].getTotalLength(),
+                            target = null;
+
+                        while (true) {
+                            target = Math.floor((beginning + end) / 2);
+                            pos = lines[i].getPointAtLength(target);
+                            if ((target === end || target === beginning) && pos.x !== mouse[0]) {
+                                break;
+                            }
+                            if (pos.x > mouse[0]) end = target;
+                            else if (pos.x < mouse[0]) beginning = target;
+                            else break; //position found
+                        }
+
+                        d3.select(this).select('text')
+                            .text(y.invert(pos.y).toFixed(2));
+
+                        return "translate(" + mouse[0] + "," + pos.y + ")";
+                    });
+
+                //Draw circles
+                // svg.selectAll("circle")
+                //     .data(data).enter()
+                //     .append("circle")
+                //     .attr("stroke", "#000")
+                //     .attr("fill", function(d,i){
+                //         if (d.birthRate<50)
+                //             return "#0f0";
+                //         else if (d.birthRate>=50 && d.birthRate<80)
+                //             return "#ff0";
+                //         else
+                //             return "#f00";
+                //     })
+                //     .attr("cx", function(d){
+                //         return x(d.date);
+                //     })
+                //     .attr("cy", function(d){
+                //         return y(d.birthRate);
+                //     })
+                //     .attr("r", function(d){
+                //         return Math.pow(d.birthRate, 0.05);
+                //     });
+
+                // draw the title of the chart
+                svg.append("text")
+                    .attr("x", (width / 2))
+                    .attr("y", 0 - (margin.top / 2))
+                    .attr("text-anchor", "middle")
+                    .style("font-size", "20px")
+                    // .style("text-decoration","underline")
+                    .text("Birth Rate for Females by Age Group: United States");
+
+                // label for x axis
+                svg.append("text")
+                    .attr("transform",
+                        "translate(" + (width / 2) + " ," +
+                        (height + margin.top - 15) + ")")
+                    .style("text-anchor", "middle")
+                    .text("Year");
+
+                // label for y axis
+                svg.append("text")
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", 0 - margin.left)
+                    .attr("x", 0 - (height / 2))
+                    .attr("dy", "1em")
+                    .style("text-anchor", "middle")
+                    .text("Birth rate per 1000 females in different age groups");
+
+                // Add x axis
+                svg.append("g")
+                    .attr("class", "x axis")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(xAxis);
+                // .selectAll("text")
+                // .style("text-anchor","end")
+                // .attr("dx", "-.8em")
+                // .attr("dy", ".15em")
+                // .attr("transform", "rotate(-65)");
+
+                // Add  y axis
+                svg.append("g")
+                    .attr("class", "y axis")
+                    .call(yAxis);
 //    debugger;
+            });
+
     });
 
 </script>
