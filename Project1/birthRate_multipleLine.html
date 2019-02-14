@@ -32,9 +32,9 @@ path {
 <script>
 
     // Set the dimensions of the canvas / graph
-    const margin = {top: 30, right: 20, bottom: 70, left: 50},
+    const margin = {top: 50, right: 20, bottom: 70, left: 50},
         width = 900 - margin.left - margin.right,
-        height = 400 - margin.top - margin.bottom;
+        height = 600 - margin.top - margin.bottom;
 
     // Parse the date / time
 
@@ -152,6 +152,15 @@ path {
         //     .attr("r", function(d){
         //         return Math.pow(d.birthRate, 0.05);
         //     });
+
+        // draw the title of the chart
+        svg.append("text")
+            .attr("x", (width / 2))
+            .attr("y", 0 - (margin.top / 2))
+            .attr("text-anchor", "middle")
+            .style("font-size", "20px")
+            // .style("text-decoration","underline")
+            .text("Birth Rate for Females by Age Group: United States");
 
         // Add the X Axis
         svg.append("g")
