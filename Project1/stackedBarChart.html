@@ -11,8 +11,9 @@
 <script src="https://d3js.org/d3.v4.js"></script>
 <script>
     // Set the dimensions of the canvas / graph
+
     const margin = {top: 80, right: 20, bottom: 80, left: 50},
-        width = 900- margin.left - margin.right,
+        width = 1200- margin.left - margin.right,
         height = 600 - margin.top - margin.bottom;
 
     // Adds the svg canvas
@@ -24,31 +25,14 @@
         .attr("transform","translate(" + margin.left + "," + margin.bottom + ")");
 
 
-    // set x scale
-    const x = d3.scaleBand()
-        .rangeRound([0,width])
-        .paddingInner(0.02)
-        .align(0.5);
-    // set y scale
-    const y = d3.scaleLinear()
-        .rangeRound([height, 0]);
-    // set color scale
-    const z = d3.scaleOrdinal()
-         .range(["#1b70fc", "#faff16", "#d50527", "#158940", "#f898fd", "#24c9d7", "#cb9b64", "#866888"]);
-
-
-    // Define x and y axes
-    const xAxis = d3.axisBottom(x)
-        .ticks(5);
-    const yAxis = d3.axisLeft(y)
-        .ticks(10);
-
     //load the data
     d3.csv('birthRate.csv',function (error, data) {
         data.forEach(function (d) {
             d.year = +d.year;
+            // d.year = d3.timeParse('%Y')
             d.birthRate = +d.birthRate;
         });
+
         data.sort(function(a,b){
             if (a.year<b.year)
                 return -1;
@@ -57,6 +41,7 @@
             else
                 return 0;
         })
+
 
         // group original data by years
         let newData = d3.nest().key(item=>item.year).entries(data);
@@ -72,57 +57,70 @@
         const ages = d3.keys(newData[0]).splice(1);
         // ages.sort().reverse();
         // stack age groups per year
-        const stack = d3.stack().keys(ages);
-        const stackedData = stack(newData);
+        const stack = d3.stack().keys(ages);// stack is a function
+            // .offset(d3.stackOffsetSilhouette);
+        const stackedData = stack(newData); // an array of stacked data per year
 
 
+        // set x scale, domain, range
+        const x = d3.scaleTime().domain(d3.extent(data.map(d=>d.year))).range([0,width]);
+
+        // x scale for stacked bar chart
+        //const x = d3.scaleBand()
+        // .rangeRound([0,width])
+        // .paddingInner(0.02)
+        // .align(0.5);
+
+        // set y scale, domain, range
+        const y = d3.scaleLinear().domain(d3.extent(stackedData.flat().flat())).range([height - 20,0]).nice();
+            // .rangeRound([height, 0]);
+        // set color scale
+        const z = d3.scaleOrdinal(d3.schemeCategory20)
+            .domain(ages);
+            // .range(["#1b70fc", "#faff16", "#d50527", "#158940", "#f898fd", "#24c9d7", "#cb9b64", "#866888"]);
 
 
         // Define x and y axes
         const xAxis = d3.axisBottom(x)
-            .ticks(5);
+            // .tickFormat(d3.timeFormat("%Y"))
+            .ticks(stackedData[0].length);
+            // .ticks(5);
         const yAxis = d3.axisLeft(y)
-            .ticks(5);
-
-        x.domain(data.map(function (d) {return d.year;}));
-        // y.domain([0, d3.max(dataset, function (d) {
-        //     return d.total;
-        // })]).nice();
-        // x.domain(d3.extent(data, function(d) { return d.year; }));
-        y.domain([0, d3.max(stackedData.flat().flat())]).nice();
-        z.domain(ages);
-
-        //add a group for each row of data
-        // const groups = svg.selectAll("g")
-        //     .data(stackedData)
-        //     .enter()
-        //     .append("g")
-        //     .style("fill", function(d){return z(d.key);});
-
-        //add a rect for each data value
-        // let rects = groups.selectAll("rect")
-        //     .data(function(d){return d;})
-        //     .enter()
-        //     .append("rect")
-        //     .attr("x", function(d){return d.year;})
-        //     .attr("y", function(d){return y(d[1]);})
-        //     .attr("height", function(d){return y(d[0]) - y(d[1]);})
-        //     .attr("width", x.bandwidth());
-
-        svg.append("g")
-            .selectAll("g")
-            .data(stackedData)
-            .enter().append("g")
-            .attr("fill", function(d) { return z(d.key); })
-            .selectAll("rect")
-            .data(function(d) { return d; })
-            .enter().append("rect")
-            .attr("x", function(d) { return x(d.data.year); })
-            .attr("y", function(d) { return y(d[1]); })
-            .attr("height", function(d) { return y(d[0]) - y(d[1]); })
-            .attr("width", x.bandwidth());
+            .ticks(10);
 
         debugger
+
+//==================  stacked bar function ========================
+        //draw stacked rectangles for each year
+        // svg.append("g")
+        //     .selectAll("g")
+        //     .data(stackedData)
+        //     .enter().append("g")
+        //     .attr("fill", function(d) { return z(d.key); })
+        //     .selectAll("rect")
+        //     .data(function(d) { return d; })
+        //     .enter().append("rect")
+        //     .attr("x", function(d) { return x(d.data.year); })
+        //     .attr("y", function(d) { return y(d[1]); }) //d[1]: the first age group(the lowest stacked rectangle)
+        //     .attr("height", function(d) { return y(d[0]) - y(d[1]); }) // the height of the first age group
+        //     .attr("width", x.bandwidth());
+
+
+//==================  stacked area function ========================
+        // area function to generate path data for the area
+        const areaGen = d3.area()
+            .x(d=>x(d.data.year))
+            .y0(d=>y(d[0]))
+            .y1(d=>y(d[1]))
+            .curve(d3.curveBasis)
+        ;
+        svg.selectAll("path").data(stackedData).enter().append("path").attr("d", areaGen)
+            // .attr("fill", function(d) { return z(d.key); })
+            .attr("fill", (d, i)=> d3.schemeCategory20[i]);
+
+
+//===================================================================
+
         // draw the title of the chart
         svg.append("text")
             .attr("x", (width / 2))
@@ -132,10 +130,28 @@
             // .style("text-decoration","underline")
             .text("Birth Rate for Females by Age Group: United States");
 
+        // label for x axis
+        svg.append("text")
+            .attr("transform",
+                "translate(" + (width / 2) + " ," +
+                (height + margin.top - 15) + ")")
+            .style("text-anchor", "middle")
+            .text("Year");
+
+        // label for y axis
+        svg.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 0 - margin.left)
+            .attr("x", 0 - (height / 2))
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .text("Birth rate per 1000 females in different age groups");
+
+
         // draw x axis with years tilted to save space
         svg.append("g")
             .attr("class", "axis")
-            .attr("transform", "translate(0," + height + ")")
+            .attr("transform", "translate(0," + height  + ")")
             .call(xAxis)
             .selectAll("text")
                 .style("text-anchor","end")
