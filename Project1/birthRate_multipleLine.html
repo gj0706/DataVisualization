@@ -72,7 +72,7 @@ button{
 </div>
 
 
-    <!-- load the d3.js library -->
+<!-- load the d3.js library -->
 <script src="http://d3js.org/d3.v3.min.js"></script>
 
 <script>
@@ -91,8 +91,8 @@ button{
         .append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom);
-        // .append("g")
-        // .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    // .append("g")
+    // .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     // clip path
     svg.append("defs").append("clipPath")
@@ -128,7 +128,7 @@ button{
 
     // Define main graph line
     const valueline = d3.svg.line()
-        // .interpolate("basis")
+    // .interpolate("basis")
         .defined(function(d) { return !isNaN(d.birthRate); })
         .interpolate("cubic")
         .x(function(d) { return x(d.date); })
@@ -152,11 +152,11 @@ button{
         .attr("class", "context")
         .attr("transform", "translate(" + marginZoom.left + "," + marginZoom.top + ")");
 
-    // var div = d3.select("body").append("div")
-    //     .attr("class", "tooltip")
-    //     .style("opacity", 0);
+    var div = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
 
-//========================== data processing  ==================================
+    //========================== data processing  ==================================
     // Load the data
     d3.csv("birthRate.csv", function(error, data) {
         data.forEach(function (d) {
@@ -194,21 +194,19 @@ button{
         context.selectAll(".line").remove();
 
 
-
-       // loop through each age/key
-       //  newData.forEach(function (d, i) {
-       //      svg.append("path")
-       //          .attr("class", "line")
-       //          .style("stroke", function () {
-       //              return d.color = color(d.key);
-       //          })
-       //          .attr("id", 'tag' + d.key.replace(/\s+/g, '')) // assign ID **
-       //          .attr("d", valueline(d.values));
-       //  })
+        // loop through each age/key
+        //  newData.forEach(function (d, i) {
+        //      svg.append("path")
+        //          .attr("class", "line")
+        //          .style("stroke", function () {
+        //              return d.color = color(d.key);
+        //          })
+        //          .attr("id", 'tag' + d.key.replace(/\s+/g, '')) // assign ID **
+        //          .attr("d", valueline(d.values));
+        //  })
 
 
 //========================= Draw main graph and zoomed area=================================
-
         // draw main graph and lines
         focus.selectAll("line").data(newData).enter().append("path")
             .attr("class", "line")
@@ -219,8 +217,43 @@ button{
                 return d.color = color(d.key);
 
             })
-            .attr("id", function(d){return 'tag' + d.key.replace(/\s+/g, '')}) // id for click effect
-            .attr("clip-path", "url(#clip)");
+            .attr("id", function (d) {
+                return 'tag' + d.key.replace(/\s+/g, '')
+            }) // id for click effect
+            .attr("clip-path", "url(#clip)")
+            .on("mouseover", function (d1) {
+                focus.selectAll(".line")
+                    .style("stroke-opacity", function (d2) {
+                        if (d1 == d2)
+                            return 1;
+                        else
+                            return 0.15;
+                    })
+                    .style("stroke-width", function (d3) {
+                        if (d1 == d3)
+                            return 3;
+                        else
+                            return 1.5;
+                    })
+
+
+                div.transition()
+                    .style("opacity", 1.0);
+                div.html("<span>" + d1[0].age + "</span>")
+                    .style("left", (d3.event.pageX) + "px")
+                    .style("top", (d3.event.pageY - 28) + "px")
+                    .style("top", (d3.event.pageY - 28) + "px")
+            })
+            .on("mouseout", function (d1) {
+                focus.selectAll(".line")
+                    .style("stroke-opacity", "1")
+                    .style("stroke-width", 1.5)
+                div.transition()
+                    .style("opacity", 0)
+            });
+
+
+
 
 
 
@@ -384,87 +417,87 @@ button{
         //             });
 //======================== Draw circles ==================================
 
-                // svg.selectAll("circle")
-                //     .data(data).enter()
-                //     .append("circle")
-                //     .attr("stroke", "#000")
-                //     .attr("fill", function(d,i){
-                //         if (d.birthRate<50)
-                //             return "#0f0";
-                //         else if (d.birthRate>=50 && d.birthRate<80)
-                //             return "#ff0";
-                //         else
-                //             return "#f00";
-                //     })
-                //     .attr("cx", function(d){
-                //         return x(d.date);
-                //     })
-                //     .attr("cy", function(d){
-                //         return y(d.birthRate);
-                //     })
-                //     .attr("r", function(d){
-                //         return Math.pow(d.birthRate, 0.05);
-                //     });
+        // svg.selectAll("circle")
+        //     .data(data).enter()
+        //     .append("circle")
+        //     .attr("stroke", "#000")
+        //     .attr("fill", function(d,i){
+        //         if (d.birthRate<50)
+        //             return "#0f0";
+        //         else if (d.birthRate>=50 && d.birthRate<80)
+        //             return "#ff0";
+        //         else
+        //             return "#f00";
+        //     })
+        //     .attr("cx", function(d){
+        //         return x(d.date);
+        //     })
+        //     .attr("cy", function(d){
+        //         return y(d.birthRate);
+        //     })
+        //     .attr("r", function(d){
+        //         return Math.pow(d.birthRate, 0.05);
+        //     });
 
 //====================== Draw x, y labels ===========================================
-                // draw the title of the chart
-                svg.append("text")
-                    .attr("x", (width / 2))
-                    .attr("y", (margin.top / 2))
-                    .attr("text-anchor", "middle")
-                    .style("font-size", "20px")
-                    // .style("text-decoration","underline")
-                    .text("Birth Rate for Females by Age Group: United States");
+        // draw the title of the chart
+        svg.append("text")
+            .attr("x", (width / 2))
+            .attr("y", (margin.top / 2))
+            .attr("text-anchor", "middle")
+            .style("font-size", "20px")
+            // .style("text-decoration","underline")
+            .text("Birth Rate for Females by Age Group: United States");
 
-                // label for x axis
-                svg.append("text")
-                    .attr("transform", "translate(" + (width / 2) + " ," + (height + margin.top + 30) + ")")
-                    .style("text-anchor", "middle")
-                    .text("Year");
+        // label for x axis
+        svg.append("text")
+            .attr("transform", "translate(" + (width / 2) + " ," + (height + margin.top + 30) + ")")
+            .style("text-anchor", "middle")
+            .text("Year");
 
-                // label for y axis
-                svg.append("text")
-                    .attr("transform", "rotate(-90)")
-                    .attr("y", margin.left - 50)
-                    .attr("x", 0 - ((height+ heightZoom) / 2))
-                    .attr("dy", "1em")
-                    .style("text-anchor", "middle")
-                    .text("Birth rate per 1000 females in different age groups");
+        // label for y axis
+        svg.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", margin.left - 50)
+            .attr("x", 0 - ((height+ heightZoom) / 2))
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .text("Birth rate per 1000 females in different age groups");
 
-                // // Add x axis
-                // svg.append("g")
-                //     .attr("class", "x axis")
-                //     .attr("transform", "translate(0," + height + ")")
-                //     .call(xAxis);
-                //
-                // // .selectAll("text")
-                // // .style("text-anchor","end")
-                // // .attr("dx", "-.8em")
-                // // .attr("dy", ".15em")
-                // // .attr("transform", "rotate(-65)");
-                //
-                // // Add  y axis
-                // svg.append("g")
-                //     .attr("class", "y axis")
-                //     .call(yAxis);
-
-
-
-  // debugger;
-                // select/clear all the lines
-                var toggle = true;
-                d3.select("input")
-                    .on("click", function() {
-                    d3.selectAll("path.line")
-                        .style("opacity", +(toggle = !toggle))
-                })
+        // // Add x axis
+        // svg.append("g")
+        //     .attr("class", "x axis")
+        //     .attr("transform", "translate(0," + height + ")")
+        //     .call(xAxis);
+        //
+        // // .selectAll("text")
+        // // .style("text-anchor","end")
+        // // .attr("dx", "-.8em")
+        // // .attr("dy", ".15em")
+        // // .attr("transform", "rotate(-65)");
+        //
+        // // Add  y axis
+        // svg.append("g")
+        //     .attr("class", "y axis")
+        //     .call(yAxis);
 
 
-            // });
-    // });
+
+        // debugger;
+        // select/clear all the lines
+        var toggle = true;
+        d3.select("input")
+            .on("click", function() {
+                d3.selectAll("path.line")
+                    .style("opacity", +(toggle = !toggle))
+            })
 
 
-});
+        // });
+        // });
+
+
+    });
 
     function brush() {
         x.domain(brush.empty() ? xZoom.domain() : brush.extent());
