@@ -86,7 +86,7 @@ button{
     const marginZoom = {top:500, right:90, bottom:30,left:80},
         heightZoom = 600 - marginZoom.top - marginZoom.bottom;
 
-    // Add the svg canvas to the body of the page
+    // Add svg canvas to the body of the page
     const svg = d3.select("body")
         .append("svg")
         .attr("width", width + margin.left + margin.right)
@@ -126,7 +126,7 @@ button{
         .x(xZoom)
         .on("brush", brush);
 
-    // Define the line
+    // Define main graph line
     const valueline = d3.svg.line()
         // .interpolate("basis")
         .defined(function(d) { return !isNaN(d.birthRate); })
@@ -142,7 +142,7 @@ button{
         .y(function(d){return yZoom(d.birthRate)});
 
 
-
+    // add main graph area
     var focus = svg.append("g")
         .attr("class", "focus")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -156,13 +156,15 @@ button{
     //     .attr("class", "tooltip")
     //     .style("opacity", 0);
 
-    // get the data
+//========================== data processing  ==================================
+    // Load the data
     d3.csv("birthRate.csv", function(error, data) {
         data.forEach(function (d) {
             d.date = parse(d.year);
             d.birthRate = +d.birthRate;
         });
 
+        // sort data by year in ascending order
         data.sort(function (a, b) {
             if (a.date < b.date)
                 return -1;
@@ -172,9 +174,9 @@ button{
                 return 0;
         })
 
-
         // group the entries by age groups
         let newData = d3.nest().key(item => item.age).entries(data);
+        const ages = d3.keys(newData[0]).splice(1);
 
         // Domain of the data
         x.domain(d3.extent(data, function (d) {
@@ -183,10 +185,6 @@ button{
         y.domain([0, d3.max(data, function (d) {
             return d.birthRate;
         })]).nice();
-
-        //
-        // y.domain([d3.min(newData, function(c) { return d3.min(c.values, function(v) { return v.birthRate; }); }),
-        //     d3.max(newData, function(c) { return d3.max(c.values, function(v) { return v.birthRate; }); }) ]);
 
         //Domain of the zoomed data
         xZoom.domain(x.domain());
@@ -209,7 +207,9 @@ button{
        //  })
 
 
-        // draw main graph
+//========================= Draw main graph and zoomed area=================================
+
+        // draw main graph and lines
         focus.selectAll("line").data(newData).enter().append("path")
             .attr("class", "line")
             .attr("d", function (d) {
@@ -219,8 +219,12 @@ button{
                 return d.color = color(d.key);
 
             })
-            .attr("id", function(d){return 'tag' + d.key.replace(/\s+/g, '')}) // assign ID **
+            .attr("id", function(d){return 'tag' + d.key.replace(/\s+/g, '')}) // id for click effect
             .attr("clip-path", "url(#clip)");
+
+
+
+
 
         focus.append("g")
             .attr("class", "x axis")
@@ -231,6 +235,7 @@ button{
             .attr("class", "y axis")
             .call(yAxis);
 
+        // draw zoomed area and lines
         context.selectAll(".line").data(newData).enter().append("path")
             .attr("class", "line")
             .attr("d", function (d) {
@@ -239,7 +244,7 @@ button{
             .style("stroke", function (d) {
                 return d.color = color(d.key);
             })
-            .attr("id", function(d){return 'tag1' + d.key.replace(/\s+/g, '')})
+            .attr("id", function(d){return 'tag1' + d.key.replace(/\s+/g, '')}) //id for click effect
             .attr("clip-path", "url(#clip)");
 
         context.append("g")
@@ -255,12 +260,11 @@ button{
             .attr("height", heightZoom + 7  );
 
 
-
+//======================= Add legend and mouse click effect =============================
         //spacing for the legend
         // legendSpace = width / newData.length;
         const legendSpace = (height+margin.top) / newData.length;
 
-            // add the legend
         newData.forEach(function(d, i) {
             svg.append("text")
                 .attr("x", width + margin.right + margin.left/ 2)
@@ -288,7 +292,7 @@ button{
                 .text(d.key);
 
         })
-//==================== tooltips ============================
+//============================ Tooltips ==================================================
 
         // var mouseG = svg.append("g")
         //     .attr("class", "mouse-over-effects");
@@ -378,7 +382,7 @@ button{
         //
         //                 return "translate(" + mouse[0] + "," + pos.y + ")";
         //             });
-//======================== Draw circles==================================
+//======================== Draw circles ==================================
 
                 // svg.selectAll("circle")
                 //     .data(data).enter()
@@ -402,7 +406,7 @@ button{
                 //         return Math.pow(d.birthRate, 0.05);
                 //     });
 
-
+//====================== Draw x, y labels ===========================================
                 // draw the title of the chart
                 svg.append("text")
                     .attr("x", (width / 2))
