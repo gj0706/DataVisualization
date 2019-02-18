@@ -147,6 +147,7 @@ button{
         .attr("class", "focus")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+    // add zoomed area
     var context = svg.append("g")
         .attr("class", "context")
         .attr("transform", "translate(" + marginZoom.left + "," + marginZoom.top + ")");
@@ -191,8 +192,8 @@ button{
         xZoom.domain(x.domain());
         yZoom.domain(y.domain());
 
-        // focus.selectAll(".line").remove();
-        // context.selectAll(".line").remove();
+        focus.selectAll(".line").remove();
+        context.selectAll(".line").remove();
 
 
 
@@ -207,7 +208,9 @@ button{
        //          .attr("d", valueline(d.values));
        //  })
 
-        focus.selectAll("g").data(newData).enter().append("path")
+
+        // draw main graph
+        focus.selectAll("line").data(newData).enter().append("path")
             .attr("class", "line")
             .attr("d", function (d) {
                 return valueline(d.values)
@@ -216,7 +219,7 @@ button{
                 return d.color = color(d.key);
 
             })
-            .attr("id", 'tag' + function(d){return d.key.replace(/\s+/g, '')}) // assign ID **
+            .attr("id", function(d){return 'tag' + d.key.replace(/\s+/g, '')}) // assign ID **
             .attr("clip-path", "url(#clip)");
 
         focus.append("g")
@@ -228,7 +231,7 @@ button{
             .attr("class", "y axis")
             .call(yAxis);
 
-        context.selectAll("g").data(newData).enter().append("path")
+        context.selectAll(".line").data(newData).enter().append("path")
             .attr("class", "line")
             .attr("d", function (d) {
                 return valuelineZoom(d.values)
@@ -236,6 +239,7 @@ button{
             .style("stroke", function (d) {
                 return d.color = color(d.key);
             })
+            .attr("id", function(d){return 'tag1' + d.key.replace(/\s+/g, '')})
             .attr("clip-path", "url(#clip)");
 
         context.append("g")
@@ -270,9 +274,12 @@ button{
                 .on("click", function () {
                     // Determine if current line is visible
                     var active = d.active ? false : true,
-                        newOpacity = active ? 1 : 0;
+                        newOpacity = active ? 0 : 1;
                     // Hide or show the elements based on the ID
                     d3.select("#tag" + d.key.replace(/\s+/g, ''))
+                        .transition().duration(100)
+                        .style("opacity", newOpacity);
+                    d3.select("#tag1" + d.key.replace(/\s+/g, ''))
                         .transition().duration(100)
                         .style("opacity", newOpacity);
                     // Update whether or not the elements are active
