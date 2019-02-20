@@ -207,7 +207,7 @@ button{
 
 
 //========================= Draw main graph and zoomed area=================================
-        // draw main graph and lines
+        // draw main graph and lines; mouseover and mouseout effect
         focus.selectAll("line").data(newData).enter().append("path")
             .attr("class", "line")
             .attr("d", function (d) {
@@ -235,27 +235,21 @@ button{
                         else
                             return 1.5;
                     })
-
-
                 div.transition()
+                    .duration(200)
                     .style("opacity", 1.0);
-                div.html("<span>" + d1[0].age + "</span>")
+                div.html(d1.key)
                     .style("left", (d3.event.pageX) + "px")
                     .style("top", (d3.event.pageY - 28) + "px")
-                    .style("top", (d3.event.pageY - 28) + "px")
             })
-            .on("mouseout", function (d1) {
+            .on("mouseout", function (d) {
                 focus.selectAll(".line")
                     .style("stroke-opacity", "1")
                     .style("stroke-width", 1.5)
                 div.transition()
+                    .duration(200)
                     .style("opacity", 0)
             });
-
-
-
-
-
 
 
 
@@ -462,7 +456,7 @@ button{
             .attr("x", 0 - ((height+ heightZoom) / 2))
             .attr("dy", "1em")
             .style("text-anchor", "middle")
-            .text("Birth rate per 1000 females in different age groups");
+            .text("Number of birth per 1000 females in different age groups");
 
         // // Add x axis
         // svg.append("g")
