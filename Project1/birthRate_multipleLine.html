@@ -63,17 +63,59 @@ button{
     left: 310px;
 }
 
+.bar {
+    fill: purple;
+    opacity: 0.8;
+}
+
+.bar:hover{
+    fill:deeppink;
+}
+
+.d3-tip {
+    line-height: 1;
+    font-weight: bold;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+    box-sizing: border-box;
+    display: inline;
+    font-size: 10px;
+    width: 100%;
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.8);
+    content: "\25BC";
+    position: absolute;
+    text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+    margin: -1px 0 0 0;
+    top: 100%;
+    left: 0;
+}
 
 </style>
 <body>
 
-<div id="option">
-    <input name="updateButton" type="button" value="Select/Clear all" />
-</div>
 
+<div id = "yearDropdown"><h3>Please select a year to compare age groups:</h3></div>
+
+<div id = "graph"></div>
+
+<div id="option">
+    <input name="updateButton" type="button" value="Select/Clear all lines" />
+</div>
 
 <!-- load the d3.js library -->
 <script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 
 <script>
 
@@ -194,18 +236,6 @@ button{
         context.selectAll(".line").remove();
 
 
-        // loop through each age/key
-        //  newData.forEach(function (d, i) {
-        //      svg.append("path")
-        //          .attr("class", "line")
-        //          .style("stroke", function () {
-        //              return d.color = color(d.key);
-        //          })
-        //          .attr("id", 'tag' + d.key.replace(/\s+/g, '')) // assign ID **
-        //          .attr("d", valueline(d.values));
-        //  })
-
-
 //========================= Draw main graph and zoomed area=================================
         // draw main graph and lines; mouseover and mouseout effect
         focus.selectAll("line").data(newData).enter().append("path")
@@ -247,7 +277,7 @@ button{
                     .style("stroke-opacity", "1")
                     .style("stroke-width", 1.5)
                 div.transition()
-                    .duration(200)
+                    .duration(500)
                     .style("opacity", 0)
             });
 
@@ -319,119 +349,6 @@ button{
                 .text(d.key);
 
         })
-//============================ Tooltips ==================================================
-
-        // var mouseG = svg.append("g")
-        //     .attr("class", "mouse-over-effects");
-        //
-        // mouseG.append("path") // this is the black vertical line to follow mouse
-        //     .attr("class", "mouse-line")
-        //     .style("stroke", "black")
-        //     .style("stroke-width", "1px")
-        //     .style("opacity", "0");
-        //
-        // var lines = document.getElementsByClassName('line');
-        //
-        // var mousePerLine = mouseG.selectAll('.mouse-per-line')
-        //     .data(newData)
-        //     .enter()
-        //     .append("g")
-        //     .attr("class", "mouse-per-line");
-        //
-        // mousePerLine.append("circle")
-        //     .attr("r", 7)
-        //     .style("stroke", function (d) {
-        //         return color(d.key);
-        //     })
-        //     .style("fill", "none")
-        //     .style("stroke-width", "1px")
-        //     .style("opacity", "0");
-        //
-        // mousePerLine.append("text")
-        //     .attr("transform", "translate(10,3)");
-        //
-        // mouseG.append('svg:rect') // append a rect to catch mouse movements on canvas
-        //     .attr('width', width) // can't catch mouse events on a g element
-        //     .attr('height', height)
-        //     .attr('fill', 'none')
-        //     .attr('pointer-events', 'all')
-        //     .on('mouseout', function () { // on mouse out hide line, circles and text
-        //         d3.select(".mouse-line")
-        //             .style("opacity", "0");
-        //         d3.selectAll(".mouse-per-line circle")
-        //             .style("opacity", "0");
-        //         d3.selectAll(".mouse-per-line text")
-        //             .style("opacity", "0");
-        //     })
-        //     .on('mouseover', function () { // on mouse in show line, circles and text
-        //         d3.select(".mouse-line")
-        //             .style("opacity", "1");
-        //         d3.selectAll(".mouse-per-line circle")
-        //             .style("opacity", "1");
-        //         d3.selectAll(".mouse-per-line text")
-        //             .style("opacity", "1");
-        //     })
-        //     .on('mousemove', function () { // mouse moving over canvas
-        //         var mouse = d3.mouse(this);
-        //         d3.select(".mouse-line")
-        //             .attr("d", function () {
-        //                 var d = "M" + mouse[0] + "," + height;
-        //                 d += " " + mouse[0] + "," + 0;
-        //                 return d;
-        //             });
-        //
-        //         d3.selectAll(".mouse-per-line")
-        //             .attr("transform", function (d, i) {
-        //                 console.log(width / mouse[0])
-        //                 var xDate = x.invert(mouse[0]),
-        //                     bisect = d3.bisector(function (d) {
-        //                         return d.date;
-        //                     }).right;
-        //                 idx = bisect(d.values, xDate);
-        //
-        //                 var beginning = 0,
-        //                     end = lines[i].getTotalLength(),
-        //                     target = null;
-        //
-        //                 while (true) {
-        //                     target = Math.floor((beginning + end) / 2);
-        //                     pos = lines[i].getPointAtLength(target);
-        //                     if ((target === end || target === beginning) && pos.x !== mouse[0]) {
-        //                         break;
-        //                     }
-        //                     if (pos.x > mouse[0]) end = target;
-        //                     else if (pos.x < mouse[0]) beginning = target;
-        //                     else break; //position found
-        //                 }
-        //
-        //                 d3.select(this).select('text')
-        //                     .text(y.invert(pos.y).toFixed(2));
-        //
-        //                 return "translate(" + mouse[0] + "," + pos.y + ")";
-        //             });
-//======================== Draw circles ==================================
-
-        // svg.selectAll("circle")
-        //     .data(data).enter()
-        //     .append("circle")
-        //     .attr("stroke", "#000")
-        //     .attr("fill", function(d,i){
-        //         if (d.birthRate<50)
-        //             return "#0f0";
-        //         else if (d.birthRate>=50 && d.birthRate<80)
-        //             return "#ff0";
-        //         else
-        //             return "#f00";
-        //     })
-        //     .attr("cx", function(d){
-        //         return x(d.date);
-        //     })
-        //     .attr("cy", function(d){
-        //         return y(d.birthRate);
-        //     })
-        //     .attr("r", function(d){
-        //         return Math.pow(d.birthRate, 0.05);
-        //     });
 
 //====================== Draw x, y labels ===========================================
         // draw the title of the chart
@@ -458,24 +375,6 @@ button{
             .style("text-anchor", "middle")
             .text("Number of birth per 1000 females in different age groups");
 
-        // // Add x axis
-        // svg.append("g")
-        //     .attr("class", "x axis")
-        //     .attr("transform", "translate(0," + height + ")")
-        //     .call(xAxis);
-        //
-        // // .selectAll("text")
-        // // .style("text-anchor","end")
-        // // .attr("dx", "-.8em")
-        // // .attr("dy", ".15em")
-        // // .attr("transform", "rotate(-65)");
-        //
-        // // Add  y axis
-        // svg.append("g")
-        //     .attr("class", "y axis")
-        //     .call(yAxis);
-
-
 
         // debugger;
         // select/clear all the lines
@@ -485,11 +384,6 @@ button{
                 d3.selectAll("path.line")
                     .style("opacity", +(toggle = !toggle))
             })
-
-
-        // });
-        // });
-
 
     });
 
@@ -502,7 +396,157 @@ button{
     }
 
 
+    //==================== bar chart section===========================================
 
+
+    var ages = ["10-14 years", "15-19 years", "20-24 years", "25-29 years" , "30-34 years",
+        "35-39 years", "40-44 years", "45-49 years"];
+
+    d3.csv("birthRate.csv", function(error,data){
+
+        let newData = d3.nest().key(item=>item.year).entries(data);
+        newData = newData.map(item=>{
+            const newItem = {year: +item.key};
+            item.values.forEach(v=>{
+                newItem[v.age] = +v.birthRate;
+            });
+            return newItem;
+        });
+
+        var yearMap = {};
+        newData.forEach(function(d){
+            var year = d.year;
+            yearMap[year] = [];
+            ages.forEach(function(field){
+                yearMap[year].push(d[field]);
+            });
+        });
+        debugger
+        // debugger
+
+        makeVis(yearMap);
+    });
+
+    var makeVis = function(yearMap){
+
+        // Set the dimensions of the canvas / graph
+        const margin1 = {top: 50, right: 90, bottom:70 , left: 80},
+            width1 = 900 - margin1.left - margin1.right,
+            height1 = 500 - margin1.top - margin1.bottom;
+
+        const x1 = d3.scale.ordinal()
+            .domain(ages)
+            .rangeRoundBands([0,width1], .1);
+
+        // make y scale , domain will be defined in bar update
+        const y1 = d3.scale.linear().range([height1, 0]);
+
+        //set x, y axis
+        const xAxis1 = d3.svg.axis()
+            .scale(x1)
+            .orient("bottom");
+        const yAxis1 = d3.svg.axis()
+            .scale(y1)
+            .orient("left")
+            .ticks(10);
+
+        // make canvas
+        const svg1 = d3.select("#graph")
+            .append("svg")
+            .attr("width", width1 + margin1.left + margin1.right)
+            .attr("height", height1 + margin1.top + margin1.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin1.left + "," + margin1.top + ")");
+
+        // set x axis and add to canvas
+        svg1.append("g")
+            .attr("class", "x1 axis")
+            .attr("transform", "translate(0," + height1 + ")")
+            .call(xAxis1)
+            .selectAll("text")
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("transform", "rotate(-65)")
+            .style("text-anchor", "end");
+        // .text("Age groups");
+
+        // set y axis and add to canvas
+        var yAxisUpdate = svg1.append("g")
+            .attr("class", "y1 axis")
+            .call(yAxis1);
+        yAxisUpdate
+            .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .text("Number of birth per 1000 female in different age group");
+
+        // add tooltip to the bars
+        var tip = d3.tip()
+            .attr('class', 'd3-tip')
+            .offset([-10, 0])
+            .html(function(d) {
+                return "<strong>Birth rate:</strong> <span style='color:pink'>" + d + "</span>";
+            })
+// debugger
+        svg1.call(tip);
+
+        var updateBars = function(data){
+            // update the y axis domain to match data
+            y1.domain( d3.extent(data) );
+            // y1.domain([0, d3.max(data, function (d) {
+            //     return d.birthRate;})]).nice();
+            yAxisUpdate.call(yAxis1);
+
+            var bars = svg1.selectAll(".bar").data(data);
+
+            // add bars for new data
+            bars.enter()
+                .append("rect")
+                .attr("class", "bar")
+                .attr("x", function(d,i) { return x1( ages[i] ); })
+                .attr("width", x1.rangeBand())
+                .attr("y", function(d) { return y1(d); })
+                .attr("height", function(d) { return height1 - y1(d); })
+                .on("mouseover", tip.show)
+                .on("mouseout", tip.hide);
+            // debugger
+
+            // Update old ones, already have x / width from before
+            bars
+                .transition().duration(350)
+                .attr("y", function(d) { return y1(d); })
+                .attr("height", function(d) { return height1 - y1(d); });
+
+            // Remove old ones
+            bars.exit().remove();
+        };
+
+        // Handler for dropdown value change
+        var dropdownChange = function() {
+            var newYear = d3.select(this).property('value'),
+                newData2  = yearMap[newYear];
+
+            updateBars(newData2);
+            // debugger
+        };
+        // Get names of years, for dropdown
+        var years = Object.keys(yearMap).sort();
+
+        var dropdown = d3.select("#graph")
+            .insert("select", "svg")
+            .on("change",dropdownChange);
+
+        dropdown.selectAll("option")
+            .data(years)
+            .enter().append("option")
+            .attr("value", function(d){return d;})
+            .text(function(d){return d;});
+        var initialData = yearMap[years[0]];
+        updateBars(initialData);
+
+    };
 
 
 </script>
