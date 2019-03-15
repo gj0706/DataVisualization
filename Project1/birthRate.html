@@ -104,8 +104,9 @@ button{
 </style>
 <body>
 
+<h1>Birth Rate for Females by Age Group in the U.S.: from 1940 to 2015</h1>
 
-<div id = "yearDropdown"><h3>Please select a year to compare age groups:</h3></div>
+<div id = "yearDropdown"><h3>Please select a year to compare birth rates in different age groups:</h3></div>
 
 <div id = "graph"></div>
 
@@ -356,9 +357,9 @@ button{
             .attr("x", (width / 2))
             .attr("y", (margin.top / 2))
             .attr("text-anchor", "middle")
-            .style("font-size", "20px")
+            .style("font-size", "20px");
             // .style("text-decoration","underline")
-            .text("Birth Rate for Females by Age Group: United States");
+            // .text("Birth Rate for Females by Age Group: United States");
 
         // label for x axis
         svg.append("text")
