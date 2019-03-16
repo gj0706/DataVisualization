@@ -18,7 +18,8 @@ Project1 for course CS5331. It is an individual project on interactive time seri
 ## Findings
 
 1. Birth rates in all age groups reached their peak in the 1950s and early 1960s.
-  The main cause is the baby boom.
+
+  The main cause is the baby boom in the United States after World War II. Young coulples had been holding off on having babys during World War II because of the Great Depression and it was also unsafe to raise children during the war. After the war, couples were eager to have children and start a family because they feel safe again. 
 
 2. Birth rates decreased sharply in the 1970s after abortion was legalized.
 
@@ -31,6 +32,7 @@ Project1 for course CS5331. It is an individual project on interactive time seri
 
 ### References
 
+https://en.wikipedia.org/wiki/Baby_boom
 https://www.nytimes.com/interactive/2018/08/04/upshot/up-birth-age-gap.html
 
 
