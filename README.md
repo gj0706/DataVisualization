@@ -2,8 +2,10 @@
 
 Project1 for course CS5331. It is an individual project on interactive time series data visualization. The project is a web-based application in javascript, html, and D3
 
-Video demo link:
-Web link: [Data Visualization Project 1](https://gj0706.github.io/DataVisualization/Project1/birthRate.html)
+### Video demo link:
+
+### Web link:
+[Data Visualization Project 1](https://gj0706.github.io/DataVisualization/Project1/birthRate.html)
 
 
 ## Data description:
