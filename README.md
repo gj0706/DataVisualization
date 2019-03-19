@@ -2,6 +2,8 @@
 
 Project1 for course CS5331. It is an individual project on interactive time series data visualization. The project is a web-based application in javascript, html, and D3
 
+![alt text](https://github.com/gj0706/DataVisualization/blob/master/Project1/p1.%3CGuo%3E.%3CJian%3E.gif)
+
 ### Video demo link:
 [Video demo on YouTube](https://www.youtube.com/watch?v=la17bteKVQg)
 
