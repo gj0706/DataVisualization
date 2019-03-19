@@ -25,8 +25,7 @@ Project1 for course CS5331. It is an individual project on interactive time seri
 2. Birth rates decreased sharply in the 1970s after abortion was legalized.
 
 
-3. Birth rates in younger age groups: 15-19 years, 20-24 years has been decreasing; while increase in older age groups: 30-34 years, 35-39 years.
-  The main reason could be that more women are going to college and marrying later. 
+3. Birth rates in younger age groups: 15-19 years, 20-24 years has been decreasing, which is most likely due to the increasing use of contraceptive devices. On the other hand, the birth rates for women in older age groups such as 30-34 years and 35-39 years have been increasing. The main reason could be that more women are going to college and thus they tend to marry later. 
 
 
 
