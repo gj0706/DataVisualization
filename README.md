@@ -3,6 +3,7 @@
 Project1 for course CS5331. It is an individual project on interactive time series data visualization. The project is a web-based application in javascript, html, and D3
 
 ### Video demo link:
+[Video demo on YouTube](https://www.youtube.com/watch?v=la17bteKVQg)
 
 ### Web link:
 [Data Visualization Project 1](https://gj0706.github.io/DataVisualization/Project1/birthRate.html)
@@ -18,14 +19,14 @@ Project1 for course CS5331. It is an individual project on interactive time seri
 ## Findings
 
 1. Birth rates in all age groups reached their peak in the 1950s and early 1960s.
+![alt text](https://github.com/gj0706/DataVisualization/blob/master/Project1/img/multiLine.png)
 
   The main cause is the baby boom in the United States after World War II. Young coulples had been holding off on having babys during World War II because of the Great Depression and it was also unsafe to raise children during the war. After the war, couples were eager to have children and start a family because they feel safe again. 
 
 2. Birth rates decreased sharply in the 1970s after abortion was legalized.
 
 
-3. Birth rates in younger age groups: 15-19 years, 20-24 years has been decreasing; while increase in older age groups: 30-34 years, 35-39 years.
-  The main reason could be that more women are going to college and marrying later. 
+3. Birth rates in younger age groups: 15-19 years, 20-24 years has been decreasing, which is most likely due to the increasing use of contraceptive devices. On the other hand, the birth rates for women in older age groups such as 30-34 years and 35-39 years have been increasing. The main reason could be that more women are going to college and thus they tend to marry later. 
 
 
 
