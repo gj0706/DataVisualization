@@ -1,3 +1,15 @@
+## Project2 description:
+
+Project2 for course CS5331. It is a project on interactive text, network and geospatial visualization. The project is a web-based application in javascript, html, and D3
+
+
+
+
+
+
+
+
+
 ## Project1 description:
 
 Project1 for course CS5331. It is an individual project on interactive time series data visualization. The project is a web-based application in javascript, html, and D3
