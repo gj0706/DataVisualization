@@ -1,0 +1,51 @@
+,n_frequency,name,t_frequency,team,c_frequency,city,s_frequency,sport,e_frequency,event
+0,58,Robert Tait McKenzie,17847,United States,22426.0,London,38624.0,Athletics,5733,Football Men's Football
+1,39,Heikki Ilmari Savolainen,11988,France,15556.0,Athina,26707.0,Gymnastics,4762,Ice Hockey Men's Ice Hockey
+2,38,"Joseph ""Josy"" Stoffel",11404,Great Britain,13821.0,Sydney,23195.0,Swimming,3958,Hockey Men's Hockey
+3,36,Ioannis Theofilakis,10260,Italy,13780.0,Atlanta,11448.0,Shooting,3358,Water Polo Men's Water Polo
+4,33,Takashi Ono,9326,Germany,13688.0,Rio de Janeiro,10859.0,Cycling,3280,Basketball Men's Basketball
+5,32,Alexandros Theofilakis,9279,Canada,13602.0,Beijing,10735.0,Fencing,2947,"Cycling Men's Road Race, Individual"
+6,32,Jean Lucien Nicolas Jacoby,8289,Japan,12977.0,Barcelona,10595.0,Rowing,2500,Gymnastics Men's Individual All-Around
+7,32,Andreas Wecker,8052,Sweden,12423.0,Los Angeles,9133.0,Cross Country Skiing,2423,Rowing Men's Coxed Eights
+8,32,Alfrd (Arnold-) Hajs (Guttmann-),7513,Australia,12037.0,Seoul,8829.0,Alpine Skiing,2411,Gymnastics Men's Team All-Around
+9,31,Alfred James Munnings,6547,Hungary,10304.0,Munich,7154.0,Wrestling,2264,Handball Men's Handball
+10,31,"Johann ""Hans"" Sauter",6143,Poland,8641.0,Montreal,6745.0,Football,2093,Athletics Men's Marathon
+11,31,"Alfred August ""Al"" Jochim",5844,Switzerland,8588.0,Mexico City,6586.0,Sailing,2049,Gymnastics Men's Parallel Bars
+12,31,Michel Mathiot,5718,Netherlands,8270.0,Helsinki,6344.0,Equestrianism,2041,Gymnastics Men's Horizontal Bar
+13,30,Yordan Yovchev Yovchev,5535,Soviet Union,8119.0,Roma,6171.0,Canoeing,2031,Gymnastics Men's Pommelled Horse
+14,30,"Michael Fred Phelps, II",5379,Finland,7702.0,Tokyo,6047.0,Boxing,2020,Gymnastics Men's Rings
+15,30,Karl Tore William Thoresson,5224,Spain,7191.0,Moskva,5613.0,Speed Skating,1936,Athletics Men's 100 metres
+16,29,Oksana Aleksandrovna Chusovitina,4975,China,7169.0,Paris,5516.0,Ice Hockey,1910,Athletics Men's 4 x 100 metres Relay
+17,29,Ivan Joseph Martin Osiier,4922,Russia,6506.0,Berlin,5417.0,Hockey,1880,Gymnastics Men's Floor Exercise
+18,28,Miltiades Manno,4866,Austria,4992.0,Amsterdam,4893.0,Biathlon,1868,Gymnastics Men's Horse Vault
+19,27,Ole Einar Bjrndalen,4708,Norway,4891.0,Sochi,4536.0,Basketball,1861,Volleyball Men's Volleyball
+20,27,"Adrianus Egbert Willem ""Arie"" de Jong",4352,Czechoslovakia,4829.0,Melbourne,3937.0,Weightlifting,1749,Athletics Men's 4 x 400 metres Relay
+21,26,Fabian Hambchen,4344,South Korea,4402.0,Vancouver,3846.0,Water Polo,1715,Bobsleigh Men's Four
+22,26,Yang Wei,4303,Romania,4382.0,Torino,3801.0,Judo,1689,"Fencing Men's epee, Team"
+23,26,Lars Jrgen Madsen,3772,Brazil,4338.0,Stockholm,3665.0,Handball,1638,"Fencing Men's epee, Individual"
+24,26,Aleksandr Vladimirovich Popov,3687,Belgium,4292.0,Antwerpen,3578.0,Art Competitions,1593,Alpine Skiing Men's Slalom
+25,26,Gustaf Eric Carlberg,3518,Bulgaria,4109.0,Salt Lake City,3404.0,Volleyball,1543,Swimming Men's 4 x 200 metres Freestyle Relay
+26,25,Lee Ju-Hyeong,3424,Denmark,3639.0,Innsbruck,3058.0,Bobsleigh,1543,Volleyball Women's Volleyball
+27,25,"Georg ""Georges"" Miez",3199,West Germany,3605.0,Nagano,2862.0,Tennis,1539,Gymnastics Women's Individual All-Around
+28,25,Gabriella Paruzzi,3199,Argentina,3436.0,Albertville,2842.0,Diving,1535,Alpine Skiing Men's Giant Slalom
+29,24,"Dnut ""Dan"" Grecu",2976,Greece,3160.0,Lillehammer,2401.0,Ski Jumping,1531,Gymnastics Women's Balance Beam
+30,24,Daniele Matias Hyplito,2857,Mexico,2639.0,Calgary,2334.0,Archery,1530,Gymnastics Women's Uneven Bars
+31,24,Mitsuo Tsukahara,2558,Yugoslavia,2134.0,Sarajevo,2298.0,Figure Skating,1527,Gymnastics Women's Floor Exercise
+32,24,Michel Boutard,2543,East Germany,2098.0,Lake Placid,1955.0,Table Tennis,1495,Athletics Men's 200 metres
+33,24,Yury Yevlampiyevich Titov,2511,Ukraine,1891.0,Grenoble,1677.0,Modern Pentathlon,1484,Gymnastics Women's Team All-Around
+34,24,Kalofer Petrov Khristozov,2464,Cuba,1657.0,Sankt Moritz,1534.0,Short Track Speed Skating,1459,Hockey Women's Hockey
+35,24,Franco Menichelli,2328,New Zealand,1655.0,Sapporo,1479.0,Luge,1417,Athletics Men's 400 metres
+36,24,"Josip ""Joe"" Primoi",1802,Czech Republic,1307.0,Cortina d'Ampezzo,1457.0,Badminton,1401,Handball Women's Handball
+37,24,Siegfried Flle,1783,Belarus,1301.0,St. Louis,1344.0,Nordic Combined,1365,"Cycling Men's Team Pursuit, 4,000 metres"
+38,24,Raimo Yrj Heinonen,1690,South Africa,1116.0,Squaw Valley,937.0,Freestyle Skiing,1357,"Fencing Men's Foil, Individual"
+39,24,Klaus Kste,1622,Egypt,1088.0,Oslo,936.0,Snowboarding,1347,"Fencing Men's Sabre, Team"
+40,24,Sawao Kato,1472,Portugal,895.0,Garmisch-Partenkirchen,909.0,Synchronized Swimming,1336,Gymnastics Women's Horse Vault
+41,24,"Jean ""Jey"" Kugeler",1429,Kazakhstan,460.0,Chamonix,894.0,Baseball,1321,Athletics Men's 800 metres
+42,24,Masao Takemoto,1400,India,,,,,1305,"Fencing Men's Foil, Team"
+43,24,Giovanni Carminucci,1353,Turkey,,,,,1295,Swimming Men's 100 metres Freestyle
+44,24,"John Gilbert ""Jack"" Beckner",1309,Ireland,,,,,1256,Basketball Women's Basketball
+45,24,Peter Rohner,1107,Slovenia,,,,,1242,Swimming Men's 4 x 100 metres Medley Relay
+46,24,Lajos Tth,1077,Chinese Taipei,,,,,1230,"Fencing Men's Sabre, Individual"
+47,24,Alberto Busnari,1068,Colombia,,,,,1225,Swimming Women's 4 x 100 metres Freestyle Relay
+48,24,Borys Anfiyanovych Shakhlin,1041,Slovakia,,,,,1200,Rowing Men's Coxed Fours
+49,24,Nikolay Yefimovich Andrianov,992,Luxembourg,,,,,1174,Athletics Women's 4 x 100 metres Relay

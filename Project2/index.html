@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Text and Network Visualization</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+            integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+            crossorigin="anonymous"
+    />
+
+</head>
+<style>
+
+</style>
+<body id="myPage">
+
+<!-- Navbar -->
+<div class="w3-top">
+    <div class="w3-bar w3-theme-d2 w3-left-align">
+        <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+        <a href="#" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Home</a>
+        <a href="#Word Cloud" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Word Cloud</a>
+        <a href="#Relationship" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Relationship</a>
+        <a href="#Geomap" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Geomap</a>
+        <a href="#contact" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Contact</a>
+        <div class="w3-dropdown-hover w3-hide-small">
+            <button class="w3-button" title="Notifications">Dropdown <i class="fa fa-caret-down"></i></button>
+            <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+                <a href="#" class="w3-bar-item w3-button">Link</a>
+                <a href="#" class="w3-bar-item w3-button">Link</a>
+                <a href="#" class="w3-bar-item w3-button">Link</a>
+            </div>
+        </div>
+        <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
+    </div>
+
+</div>
+
+
+<!-- svg Container -->
+<div class="w3-container w3-padding-64 w3-center" id="svg1">
+    <h2>Text and Network Visualization: 120 Years of Olympic History</h2>
+    <div class="w3-row"><br>
+        <div class="w3-dropdown-hover w3-hide-small w3-left" id="yearDropDown">
+            <h4>Most frequent 50 words:</h4>
+            <button class="w3-button" title="Notifications">Categories <i class="fa fa-caret-down"></i></button>
+            <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+                <a href="#" class="w3-bar-item w3-button">name</a>
+                <a href="#" class="w3-bar-item w3-button">team</a>
+                <a href="#" class="w3-bar-item w3-button">sport</a>
+            </div>
+        </div>
+        <div class="w3-dropdown-hover w3-hide-small w3-quater" id="lineChart">
+            <h4>Slide to selet a year</h4>
+            <div class="row align-items-center">
+                <div class="col-sm-2"><p id="value-time"></p></div>
+                <div class="col-sm"><div id="slider-time"></div></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<script src="http://d3js.org/d3.v5.min.js"></script>
+<script src="https://unpkg.com/d3-simple-slider"></script>
+
+<script>
+
+//=====================Year slider========================
+var dataTime = d3.range(0, 10).map(function(d) {
+    return new Date(1896 + d, 10, 4);
+});
+
+var sliderTime = d3.sliderBottom()
+    .min(d3.min(dataTime))
+    .max(d3.max(dataTime))
+    .step(1000 * 60 * 60 * 24 * 365)
+    .width(300)
+    .tickFormat(d3.timeFormat('%Y'))
+    .tickValues(dataTime)
+    .default(new Date(1998, 10, 3))
+    .on('onchange', val => {
+        d3.select('p#value-time').text(d3.timeFormat('%Y')(val));
+    });
+
+var gTime = d3
+    .select('div#slider-time')
+    .append('svg')
+    .attr('width', 500)
+    .attr('height', 100)
+    .append('g')
+    .attr('transform', 'translate(30,30)');
+
+gTime.call(sliderTime);
+d3.select('p#value-time').text(d3.timeFormat('%Y')(sliderTime.value()));
+//===========================================================================
+
+
+
+
+
+
+
+
+</script>
+
+
+
+</body>
+</html>
