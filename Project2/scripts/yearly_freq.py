@@ -53,6 +53,7 @@ top_event_freq = year_sport_freq.filter(df_freq["event"])
 top_name_freq = year_name_freq.filter(df_freq["name"])
 
 
+teams = top_team_freq.iloc[0,:].index
 
 
 
@@ -68,9 +69,11 @@ top_name_freq = year_name_freq.filter(df_freq["name"])
 # event_year_freq.to_csv("_sport_freq.csv")
 # =============================================================================
 
-top_team_freq.to_csv("top_team_freq.csv")
-top_sport_freq.to_csv("top_sport_freq.csv")
-top_event_freq.to_csv("top_event_freq.csv")
+# =============================================================================
+# top_team_freq.to_csv("top_team_freq.csv")
+# top_sport_freq.to_csv("top_sport_freq.csv")
+# top_event_freq.to_csv("top_event_freq.csv")
+# =============================================================================
 
 
 

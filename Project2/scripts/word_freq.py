@@ -33,4 +33,5 @@ df_event = pd.DataFrame({"event": event_count.index, "e_frequency": event_count.
 df_left = df_name.join(df_team)
 df_right = df_city.join(df_sport) 
 df_freq = df_left.join(df_right).join(df_event)
-df_freq.to_csv("word_freq.csv")
+
+#df_freq.to_csv("word_freq.csv")
