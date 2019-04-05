@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 
 # read the data
 data = pd.read_csv('/Users/jaywang/Documents/TTU_study/Spring2019/CS5331DataVisualization/Projects/Project2/data/athletes.csv',header=0)
-data_freq = pd.read_csv('/Users/jaywang/Documents/TTU_study/Spring2019/CS5331DataVisualization/Projects/Project2/data/word_freq.csv',header=0)
+data_freq = pd.read_csv('/Users/jaywang/Documents/TTU_study/Spring2019/CS5331DataVisualization/Projects/Project2/data/word_freq copy.csv',header=0)
 
 # set data frame
 df = pd.DataFrame(data, columns=data.columns)
@@ -40,7 +40,7 @@ year_name_freq = year_name.unstack(level = -1).fillna(0)
 
 team_year_freq = year_team.unstack(level = 0).fillna(0)
 city_year_freq = year_city.unstack(level = 0).fillna(0)
-sport_year_freq = year_sport.unstack(level=0).fillna(0)
+sport_year_freq = year_sport.unstack(level= 0).fillna(0)
 event_year_freq = year_event.unstack(level = 0).fillna(0)
 
 # plot data
@@ -49,11 +49,11 @@ event_year_freq = year_event.unstack(level = 0).fillna(0)
 
 top_team_freq = year_team_freq.filter(df_freq["team"])
 top_sport_freq = year_sport_freq.filter(df_freq["sport"])
-top_event_freq = year_sport_freq.filter(df_freq["event"])
+top_event_freq = year_event_freq.filter(df_freq["event"])
 top_name_freq = year_name_freq.filter(df_freq["name"])
+top_city_freq = year_city_freq.filter(df_freq["city"])
 
-
-teams = top_team_freq.iloc[0,:].index
+#teams = top_team_freq.iloc[0,:].index
 
 
 
@@ -72,7 +72,9 @@ teams = top_team_freq.iloc[0,:].index
 # =============================================================================
 # top_team_freq.to_csv("top_team_freq.csv")
 # top_sport_freq.to_csv("top_sport_freq.csv")
-# top_event_freq.to_csv("top_event_freq.csv")
+#top_event_freq.to_csv("top_event_freq.csv")
+#top_name_freq.to_csv("top_name_freq.csv")
+top_city_freq.to_csv("top_city_freq.csv")
 # =============================================================================
 
 
