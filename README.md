@@ -2,6 +2,19 @@
 
 Project2 for course CS5331. It is a project on interactive text, network and geospatial visualization. The project is a web-based application in javascript, html, and D3
 
+## Data description:
+
+1. Source: [kaggle.com](https://www.kaggle.com/heesoo37/120-years-of-olympic-history-athletes-and-results). Data used for this project is "120 years of Olympic history: athletes and results",a historical dataset on the modern Olympic Games, including all the names of the athlets, teams, sports, cities, etc., from Athens 1896 to Rio 2016. 
+
+## Data Preprocess:
+
+1. Removed all the unrelated columns, including athletes sex, age, weight, height and so on. 
+
+2. Wrote  a Python script to summarize the word frequency in five categories: name, team, sport, city and event. 
+
+3. Another Python script to group data by year, and count the frequency of words in each category per year. Output as csv files.
+
+
 
 
 
