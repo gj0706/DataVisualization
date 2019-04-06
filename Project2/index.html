@@ -13,9 +13,7 @@
 
     <script src="https://d3js.org/d3.v3.min.js"></script>
     <!--<script src="scripts/d3.tooltip.js"></script>-->
-    <script src="scripts/d3.layout.cloud.js"></script>
-    <script src="scripts/word_cloud.js"></script>
-    <script src="scripts/d3.slider.js"></script>
+
 
 
     <!--<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>-->
@@ -23,6 +21,60 @@
 
 </head>
 <style>
+    path {
+        stroke: blue;
+        stroke-width: 2;
+        fill: none;
+    }
+
+    .axis path,
+    .axis line {
+        fill: none;
+        stroke: grey;
+        stroke-width: 1;
+        shape-rendering: crispEdges;
+    }
+
+    .legend {
+        font-size: 14px;
+        font-weight: bold;
+        text-anchor: middle;
+    }
+
+    .line {
+        fill: none;
+        stroke: steelblue;
+        stroke-width: 1.5px;
+    }
+
+    .zoom{
+        cursor:move;
+        fill:none;
+        pointer-events: all;
+    }
+
+    .brush .extent {
+        stroke: #fff;
+        fill-opacity: .125;
+        shape-rendering: crispEdges;
+    }
+
+    div.tooltip {
+        position: absolute;
+        text-align: center;
+        padding: 5px;
+        font: 12px sans-serif;
+        background: black;
+        color: white;
+        border: 1px;
+        border-radius: 4px;
+        pointer-events: none;
+    }
+
+    button{
+        position: relative;
+        left: 310px;
+    }
 
 </style>
 <body id="myPage">
@@ -36,7 +88,6 @@
         <a href="#Relationship" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Relationship</a>
         <a href="#Geomap" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Geomap</a>
     </div>
-    <div id="selectYear"></div>
 
 </div>
 
@@ -56,18 +107,20 @@
                 <!--<a href="#sports" class="w3-bar-item w3-button">Sports</a>-->
             <!--</div>-->
         </div>
-        <div id="cloud"></div>
+
 
         <div class="w3-center">
-            <h4>Please slide to select a year: </h4>
+            <h4>Please slide to select a year: </h4><input id="slide" type="range" min="1896" max="2016" step="1" width="700" value="1" onchange= "updateSlider(this.value)">
             <div id="slider"></div>
+            <div class="w3-left" id="cloud"></div>
+            <div class="w3-quarter" id="timeSeries"></div>
 
         </div>
 
     </div>
 
     <div class="w3-row"><br>
-
+        <h4>Relationship: </h4>
 
     </div>
 </div>
@@ -92,25 +145,31 @@
 
 
 
-
+<script src="scripts/d3.layout.cloud.js"></script>
+<script src="scripts/word_cloud.js"></script>
+<script src="scripts/d3.slider.js"></script>
+<script src="scripts/time_series.js"></script>
 
 <script>
     //=====================Year slider========================
     years = [1896, 1900, 1904, 1906, 1908, 1912, 1920, 1924, 1928, 1932, 1936, 1948, 1952, 1956, 1960, 1964,
         1968, 1972, 1976, 1980, 1984, 1988, 1992, 1994, 1996, 1998, 2000, 2002, 2004, 2006, 2008, 2010, 2012, 2014, 2016]
-    var width = 420,
-        barHeight = 25;
+    // var width = 420,
+    //     barHeight = 25;
+    //
+    // var x = d3.scale.linear()
+    //     .domain([0, d3.max(years)])
+    //     .range([0, width]);
+    //
+    // var chart = d3.select(".chart")
+    //     .attr("width", width)
+    //     .attr("height", barHeight * years.length);
 
-    var x = d3.scale.linear()
-        .domain([0, d3.max(years)])
-        .range([0, width]);
 
-    var chart = d3.select(".chart")
-        .attr("width", width)
-        .attr("height", barHeight * years.length);
-
-
-    d3.select('#slider').call(d3.slider().scale(d3.time.scale().domain([new Date(1896,1,1), new Date(2018,1,1)])).axis(d3.svg.axis()));
+    // d3.select('#slider').call(d3.slider().axis(true).value( [10, 25 ] ).on("slide", function(evt, value) {
+    //     d3.select('#slider3textmin').text(value[ 0 ]);
+    //     d3.select('#slider3textmax').text(value[ 1 ]);
+    // }));    //=========================================================
 
 
 
