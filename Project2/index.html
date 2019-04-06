@@ -8,6 +8,14 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/d3.slider.css">
+
+
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <!--<script src="scripts/d3.tooltip.js"></script>-->
+    <script src="scripts/d3.layout.cloud.js"></script>
+    <script src="scripts/word_cloud.js"></script>
+    <script src="scripts/d3.slider.js"></script>
 
 
     <!--<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>-->
@@ -38,19 +46,22 @@
     <h2>Text and Network Visualization: 120 Years of Olympic History</h2>
 
     <div class="w3-row"><br>
-        <div class="w3-dropdown-hover w3-hide-small w3-left" id="categoryDropDown">
-            <h4>Most frequent 50 words:</h4>
-            <button class="w3-button" title="Notifications">Select Categories <i class="fa fa-caret-down"></i></button>
-            <div class="w3-dropdown-content w3-card-4 w3-bar-block">
-                <a href="#names" class="w3-bar-item w3-button">Names</a>
-                <a href="#teams" class="w3-bar-item w3-button">Teams</a>
-                <a href="#sports" class="w3-bar-item w3-button">Sports</a>
-            </div>
+
+        <!--<div class="w3-dropdown-hover w3-hide-small w3-left" id="categoryDropDown">-->
+            <!--<h4>Most frequent 50 words:</h4>-->
+            <!--<button class="w3-button" title="Notifications">Select Categories <i class="fa fa-caret-down"></i></button>-->
+            <!--<div class="w3-dropdown-content w3-card-4 w3-bar-block">-->
+                <!--<a href="#names" class="w3-bar-item w3-button">Names</a>-->
+                <!--<a href="#teams" class="w3-bar-item w3-button">Teams</a>-->
+                <!--<a href="#sports" class="w3-bar-item w3-button">Sports</a>-->
+            <!--</div>-->
         </div>
         <div id="cloud"></div>
 
-        <div class="w3-quarter">
-            <h4>Time Series</h4>
+        <div class="w3-center">
+            <h4>Please slide to select a year: </h4>
+            <div id="slider"></div>
+
         </div>
 
     </div>
@@ -82,12 +93,28 @@
 
 
 
-<script src="https://d3js.org/d3.v3.min.js"></script>
-<!--<script src="scripts/d3.tooltip.js"></script>-->
-<script src="scripts/d3.layout.cloud.js"></script>
-<script src="scripts/word_cloud.js"></script>
+
+<script>
+    //=====================Year slider========================
+    years = [1896, 1900, 1904, 1906, 1908, 1912, 1920, 1924, 1928, 1932, 1936, 1948, 1952, 1956, 1960, 1964,
+        1968, 1972, 1976, 1980, 1984, 1988, 1992, 1994, 1996, 1998, 2000, 2002, 2004, 2006, 2008, 2010, 2012, 2014, 2016]
+    var width = 420,
+        barHeight = 25;
+
+    var x = d3.scale.linear()
+        .domain([0, d3.max(years)])
+        .range([0, width]);
+
+    var chart = d3.select(".chart")
+        .attr("width", width)
+        .attr("height", barHeight * years.length);
 
 
+    d3.select('#slider').call(d3.slider().scale(d3.time.scale().domain([new Date(1896,1,1), new Date(2018,1,1)])).axis(d3.svg.axis()));
+
+
+
+</script>>
 
 
 
