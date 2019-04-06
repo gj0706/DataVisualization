@@ -91,3 +91,22 @@ top_city_freq = year_city_freq.filter(df_freq["city"])
 #df_dd = ((df_dd - df_dd.min())/(df_dd.max()-df_dd.min()))*20
 
 
+# melt function
+
+yearly_freq_norm = pd.read_csv('/Users/jaywang/Documents/TTU_study/Spring2019/CS5331DataVisualization/Projects/Project2/data/yearly_freq_norm.csv',header=0)
+
+df_yearly_freq_norm = pd.DataFrame(yearly_freq_norm, columns=yearly_freq_norm.columns)
+
+df_yearly_freq_norm = pd.melt(df_yearly_freq_norm, id_vars=["year"], var_name="word", value_name = "frequency")
+
+df_yearly_freq_norm.to_csv("year_word_freq.csv")
+
+
+
+
+
+
+
+
+
+
