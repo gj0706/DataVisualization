@@ -1,51 +1,51 @@
-word,frequency,category
-United States,9.232762,team
-France,6.19646,team
-Great Britain,5.893815,team
-Italy,5.300961,team
-Germany,4.816936,team
-Canada,4.792579,team
-Japan,4.279533,team
-Sweden,4.156712,team
-Australia,3.877387,team
-Hungary,3.376778,team
-London,11.605732,city
-Athina,8.0455,city
-Sydney,7.146374,city
-Atlanta,7.125126,city
-Rio de Janeiro,7.077449,city
-Beijing,7.032882,city
-Barcelona,6.708989,city
-Los Angeles,6.42189,city
-Seoul,6.221854,city
-Munich,5.323763,city
-Athletics,20,sport
-Gymnastics,13.824269,sport
-Swimming,12.004249,sport
-Shooting,5.916617,sport
-Cycling,5.61138,sport
-Fencing,5.54712,sport
-Rowing,5.474568,sport
-Cross Country Skiing,4.716918,sport
-Alpine Skiing,4.559376,sport
-Wrestling,3.691343,sport
-Football Men's Football,2.95494,event
-Ice Hockey Men's Ice Hockey,2.45174,event
-Hockey Men's Hockey,2.035084,event
-Water Polo Men's Water Polo,1.724147,event
-Basketball Men's Basketball,1.683725,event
-"Cycling Men's Road Race, Individual",1.511155,event
-Gymnastics Men's Individual All-Around,1.279507,event
-Rowing Men's Coxed Eights,1.239603,event
-Gymnastics Men's Team All-Around,1.233384,event
-Handball Men's Handball,1.157205,event
-Robert Tait McKenzie,0.013992,name
-Heikki Ilmari Savolainen,0.004146,name
-"Joseph ""Josy"" Stoffel",0.003628,name
-Ioannis Theofilakis,0.002591,name
-Takashi Ono,0.001036,name
-Alexandros Theofilakis,0.000518,name
-Jean Lucien Nicolas Jacoby,0.000518,name
-Andreas Wecker,0.000518,name
-Alfrd (Arnold-) Hajs (Guttmann-),0.000518,name
-Alfred James Munnings,0,name
+word,,category,frequency
+United States,9.232762,team,10
+France,6.19646,team,7
+Great Britain,5.893815,team,6
+Italy,5.300961,team,6
+Germany,4.816936,team,5
+Canada,4.792579,team,5
+Japan,4.279533,team,5
+Sweden,4.156712,team,5
+Australia,3.877387,team,4
+Hungary,3.376778,team,4
+London,11.605732,city,12
+Athina,8.0455,city,9
+Sydney,7.146374,city,8
+Atlanta,7.125126,city,8
+Rio de Janeiro,7.077449,city,8
+Beijing,7.032882,city,8
+Barcelona,6.708989,city,7
+Los Angeles,6.42189,city,7
+Seoul,6.221854,city,7
+Munich,5.323763,city,6
+Athletics,20,sport,20
+Gymnastics,13.824269,sport,14
+Swimming,12.004249,sport,13
+Shooting,5.916617,sport,6
+Cycling,5.61138,sport,6
+Fencing,5.54712,sport,6
+Rowing,5.474568,sport,6
+Cross Country Skiing,4.716918,sport,5
+Alpine Skiing,4.559376,sport,5
+Wrestling,3.691343,sport,4
+Football Men's Football,2.95494,event,3
+Ice Hockey Men's Ice Hockey,2.45174,event,3
+Hockey Men's Hockey,2.035084,event,3
+Water Polo Men's Water Polo,1.724147,event,2
+Basketball Men's Basketball,1.683725,event,2
+"Cycling Men's Road Race, Individual",1.511155,event,2
+Gymnastics Men's Individual All-Around,1.279507,event,2
+Rowing Men's Coxed Eights,1.239603,event,2
+Gymnastics Men's Team All-Around,1.233384,event,2
+Handball Men's Handball,1.157205,event,2
+Robert Tait McKenzie,0.013992,name,1
+Heikki Ilmari Savolainen,0.004146,name,1
+"Joseph ""Josy"" Stoffel",0.003628,name,1
+Ioannis Theofilakis,0.002591,name,1
+Takashi Ono,0.001036,name,1
+Alexandros Theofilakis,0.000518,name,1
+Jean Lucien Nicolas Jacoby,0.000518,name,1
+Andreas Wecker,0.000518,name,1
+Alfrd (Arnold-) Hajs (Guttmann-),0.000518,name,1
+Alfred James Munnings,0,name,0

@@ -1,14 +1,14 @@
 
 
 
-// var words = ["United States", "France", "Great Britain", "Italy", "Germany", "Canada", "Japan", "Sweden", "Australia", "Hungary",
-//     "London", "Athina", "Sydney", "Atlanta", "Rio de Janeiro", "Beijing", "Barcelona", "Los Angeles", "Seoul", "Munich", "Athletics",
-//     "Gymnastics", "Swimming", "Shooting", "Cycling", "Fencing", "Rowing", "Cross Country Skiing", "Alpine Skiing", "Wrestling",
-//     "Football Men's Football", "Ice Hockey Men's Ice Hockey", "Hockey Men's Hockey", "Water Polo Men's Water Polo",
-//     "Basketball Men's Basketball", "Cycling Men's Road Race, Individual", "Gymnastics Men's Individual All-Around",
-//     "Rowing Men's Coxed Eights", "Gymnastics Men's Team All-Around", "Handball Men's Handball",
-//     "Robert Tait McKenzie", "Heikki Ilmari Savolainen", "Joseph \"Josy\" Stoffel", "Ioannis Theofilakis", "Takashi Ono",
-//     "Alexandros Theofilakis", "Jean Lucien Nicolas Jacoby", "Andreas Wecker", "Alfrd (Arnold-) Hajs (Guttmann-)", "Alfred James Munnings"]
+var words = ["United States", "France", "Great Britain", "Italy", "Germany", "Canada", "Japan", "Sweden", "Australia", "Hungary",
+    "London", "Athina", "Sydney", "Atlanta", "Rio de Janeiro", "Beijing", "Barcelona", "Los Angeles", "Seoul", "Munich", "Athletics",
+    "Gymnastics", "Swimming", "Shooting", "Cycling", "Fencing", "Rowing", "Cross Country Skiing", "Alpine Skiing", "Wrestling",
+    "Football Men's Football", "Ice Hockey Men's Ice Hockey", "Hockey Men's Hockey", "Water Polo Men's Water Polo",
+    "Basketball Men's Basketball", "Cycling Men's Road Race, Individual", "Gymnastics Men's Individual All-Around",
+    "Rowing Men's Coxed Eights", "Gymnastics Men's Team All-Around", "Handball Men's Handball",
+    "Robert Tait McKenzie", "Heikki Ilmari Savolainen", "Joseph \"Josy\" Stoffel", "Ioannis Theofilakis", "Takashi Ono",
+    "Alexandros Theofilakis", "Jean Lucien Nicolas Jacoby", "Andreas Wecker", "Alfrd (Arnold-) Hajs (Guttmann-)", "Alfred James Munnings"]
 
 // d3.csv("data/year_word_freq.csv", function(error, data){
 //     data.forEach(function(d){
@@ -117,7 +117,7 @@ d3.csv("data/year_word_freq.csv", function(error, data) {
     // group the entries by age groups
     let newData = d3.nest().key(item => item.word).entries(data);
     const words = d3.keys(newData[0]).splice(1);
-debugger
+
     // Domain of the data
     x.domain(d3.extent(data, function (d) {
         return d.year;
@@ -135,6 +135,17 @@ debugger
 
 
 //========================= Draw main graph and zoomed area=================================
+    // tooltip
+    var lineTip = d3.tip()
+        .attr('class', 'd3-tip')
+        .offset([-10, 0])
+        .html(function(d,i) {
+            return "<strong>" + d.key + " </strong>";
+
+        })
+    debugger
+    svg.call(lineTip);
+
     // draw main graph and lines; mouseover and mouseout effect
     focus.selectAll("line").data(newData).enter().append("path")
         .attr("class", "line")
@@ -163,20 +174,24 @@ debugger
                     else
                         return 1.5;
                 })
-            div.transition()
-                .duration(200)
-                .style("opacity", 1.0);
-            div.html(d1.key)
-                .style("left", (d3.event.pageX) + "px")
-                .style("top", (d3.event.pageY - 28) + "px")
+            d3.select(this).attr("opacity", "1");
+            lineTip.show(d1);
+            // div.transition()
+            //     .duration(200)
+            //     .style("opacity", 1.0);
+            // div.html(d1.key + "<br/> " )
+            //     .style("left", (d3.event.pageX) + "px")
+            //     .style("top", (d3.event.pageY - 28) + "px")
         })
         .on("mouseout", function (d) {
             focus.selectAll(".line")
                 .style("stroke-opacity", "1")
-                .style("stroke-width", 1.5)
-            div.transition()
-                .duration(500)
-                .style("opacity", 0)
+                .style("stroke-width", 1.5);
+            // div.transition()
+            //     .duration(500)
+            //     .style("opacity", 0)
+            d3.select(this).attr("opacity", "1");
+            lineTip.hide();
         });
 
 
@@ -247,7 +262,7 @@ debugger
             .text(d.key);
 
     })
-debugger
+// debugger
 //====================== Draw x, y labels ===========================================
     // draw the title of the chart
     svg.append("text")
