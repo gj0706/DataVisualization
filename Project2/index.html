@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/d3.slider.css">
 
+<!--new_cloud-->
+    <script data-require="jquery@*" data-semver="2.2.0" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script data-require="d3@*" data-semver="3.5.3" src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.js"></script>
+<!---->
 
     <script src="https://d3js.org/d3.v3.min.js"></script>
     <!--<script src="scripts/d3.tooltip.js"></script>-->
@@ -112,9 +116,9 @@
     <div class="w3-bar w3-theme-d2 w3-left-align">
         <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
         <a href="#wordCloud" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Home</a>
-        <a href="#WordCloud" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Word Cloud</a>
-        <a href="#Relationship" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Relationship</a>
-        <a href="#Geomap" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Geomap</a>
+        <!--<a href="#WordCloud" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Word Cloud</a>-->
+        <a href="#relationship" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Relationship</a>
+        <a href="#geoMap" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Geomap</a>
     </div>
 
 </div>
@@ -126,6 +130,7 @@
 
     <div class="w3-row"><br>
 
+
         <!--<div class="w3-dropdown-hover w3-hide-small w3-left" id="categoryDropDown">-->
             <!--<h4>Most frequent 50 words:</h4>-->
             <!--<button class="w3-button" title="Notifications">Select Categories <i class="fa fa-caret-down"></i></button>-->
@@ -134,11 +139,12 @@
                 <!--<a href="#teams" class="w3-bar-item w3-button">Teams</a>-->
                 <!--<a href="#sports" class="w3-bar-item w3-button">Sports</a>-->
             <!--</div>-->
-        </div>
+        <!--</div>-->
 
 
         <div class="w3-center">
-            <h4>Please slide to select a year: </h4><input id="slide" type="range" min="1896" max="2016" step="1" width="700" value="1" onchange= "updateSlider(this.value)">
+            <h4>Please select a year </h4>
+            <div id="dropDown"></div>
             <div id="slider"></div>
             <div class="w3-left" id="cloud"></div>
             <div class="w3-quarter" id="timeSeries"></div>
@@ -147,10 +153,25 @@
 
     </div>
 
-    <div class="w3-row"><br>
-        <h4>Relationship: </h4>
+    <div class="w3-row" ><br>
+        <h4 id="relationship">Relationship: </h4>
+        <div id="graph"></div>
 
     </div>
+
+
+    <div class="w3-row" ><br>
+        <h4 id="geoMap">Map: </h4>
+        <div id="map"></div>
+
+
+    </div>
+
+
+
+
+
+
 </div>
 
 
@@ -177,11 +198,12 @@
 <script src="scripts/word_cloud.js"></script>
 <script src="scripts/d3.slider.js"></script>
 <script src="scripts/time_series.js"></script>
+<!--<script src="scripts/relationship.js"></script>-->
 
 <script>
     //=====================Year slider========================
     years = [1896, 1900, 1904, 1906, 1908, 1912, 1920, 1924, 1928, 1932, 1936, 1948, 1952, 1956, 1960, 1964,
-        1968, 1972, 1976, 1980, 1984, 1988, 1992, 1994, 1996, 1998, 2000, 2002, 2004, 2006, 2008, 2010, 2012, 2014, 2016]
+        1968, 1972, 1976, 1980, 1984, 1988, 1992, 1994, 1996, 1998, 2000, 2002, 2004, 2006, 2008, 2010, 2012, 2014, 2016];
     // var width = 420,
     //     barHeight = 25;
     //
