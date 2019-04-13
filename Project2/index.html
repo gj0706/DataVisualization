@@ -10,17 +10,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/d3.slider.css">
 
-<!--new_cloud-->
-    <script data-require="jquery@*" data-semver="2.2.0" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-    <script data-require="d3@*" data-semver="3.5.3" src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.js"></script>
-<!---->
+
 
     <script src="https://d3js.org/d3.v3.min.js"></script>
-    <!--<script src="scripts/d3.tooltip.js"></script>-->
-
-
+    <script src="scripts/d3.tooltip.js"></script>
 
     <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+    <!--force layout-->
+    <!--<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>-->
 
 
 </head>
@@ -108,6 +105,48 @@
         left: 0;
     }
 
+
+    /*sankey diagram*/
+    .node rect {
+        cursor: move;
+        fill-opacity: .9;
+        shape-rendering: crispEdges;
+    }
+
+    .node text {
+        pointer-events: none;
+        text-shadow: 0 1px 0 #fff;
+    }
+
+    .link {
+        fill: none;
+        stroke: #000;
+        stroke-opacity: .2;
+    }
+
+    .link:hover {
+        stroke-opacity: .5;
+    }
+
+    /*force layout*/
+    path.link {
+        fill: none;
+        stroke: #666;
+        stroke-width: 1.5px;
+    }
+
+    circle {
+        fill: #ccc;
+        stroke: #fff;
+        stroke-width: 1.5px;
+    }
+
+    text {
+        fill: #000;
+        font: 10px sans-serif;
+        pointer-events: none;
+    }
+
 </style>
 <body id="myPage">
 
@@ -127,99 +166,37 @@
 <!-- Word cloud container -->
 <div class="w3-container w3-padding-64 w3-center" id="wordCloud">
     <h2>Text and Network Visualization: 120 Years of Olympic History (1896-2016)</h2>
-
     <div class="w3-row"><br>
-
-
-        <!--<div class="w3-dropdown-hover w3-hide-small w3-left" id="categoryDropDown">-->
-            <!--<h4>Most frequent 50 words:</h4>-->
-            <!--<button class="w3-button" title="Notifications">Select Categories <i class="fa fa-caret-down"></i></button>-->
-            <!--<div class="w3-dropdown-content w3-card-4 w3-bar-block">-->
-                <!--<a href="#names" class="w3-bar-item w3-button">Names</a>-->
-                <!--<a href="#teams" class="w3-bar-item w3-button">Teams</a>-->
-                <!--<a href="#sports" class="w3-bar-item w3-button">Sports</a>-->
-            <!--</div>-->
-        <!--</div>-->
-
-
         <div class="w3-center">
-            <h4>Please select a year </h4>
-            <div id="dropDown"></div>
-            <div id="slider"></div>
+            <h4>Word Cloud and Time series </h4>
+            <p align="left">Please select a year </p>
+            <div class="w3-left"  id= "dropDown"></div>
+            <!--<div id="slider"></div>-->
             <div class="w3-left" id="cloud"></div>
             <div class="w3-quarter" id="timeSeries"></div>
-
         </div>
-
     </div>
-
     <div class="w3-row" ><br>
         <h4 id="relationship">Relationship: </h4>
-        <div id="graph"></div>
-
+        <div class="w3-left" id="graph"></div>
     </div>
-
-
     <div class="w3-row" ><br>
         <h4 id="geoMap">Map: </h4>
-        <div id="map"></div>
-
-
+        <div id="map">
+            <div id="location"></div>
+        </div>
     </div>
-
-
-
-
-
-
 </div>
-
-
-
-<!--&lt;!&ndash; Relationship Row &ndash;&gt;-->
-<!--<div class="w3-row-padding w3-center w3-padding-64" id="relationship">-->
-    <!--<h2>Relationship</h2>-->
-
-
-
-
-<!--</div>-->
-
-
-<!--&lt;!&ndash; Relationship Row &ndash;&gt;-->
-<!--<div class="w3-row-padding w3-center w3-padding-64" id="geomap">-->
-    <!--<h2>Geo Map</h2>-->
-
-<!--</div>-->
-
 
 
 <script src="scripts/d3.layout.cloud.js"></script>
 <script src="scripts/word_cloud.js"></script>
-<script src="scripts/d3.slider.js"></script>
+<script src="scripts/sankey.js"></script>
+
+<!--<script src="scripts/d3.slider.js"></script>-->
 <script src="scripts/time_series.js"></script>
-<!--<script src="scripts/relationship.js"></script>-->
-
+<script src="scripts/relationship.js"></script>
 <script>
-    //=====================Year slider========================
-    years = [1896, 1900, 1904, 1906, 1908, 1912, 1920, 1924, 1928, 1932, 1936, 1948, 1952, 1956, 1960, 1964,
-        1968, 1972, 1976, 1980, 1984, 1988, 1992, 1994, 1996, 1998, 2000, 2002, 2004, 2006, 2008, 2010, 2012, 2014, 2016];
-    // var width = 420,
-    //     barHeight = 25;
-    //
-    // var x = d3.scale.linear()
-    //     .domain([0, d3.max(years)])
-    //     .range([0, width]);
-    //
-    // var chart = d3.select(".chart")
-    //     .attr("width", width)
-    //     .attr("height", barHeight * years.length);
-
-
-    // d3.select('#slider').call(d3.slider().axis(true).value( [10, 25 ] ).on("slide", function(evt, value) {
-    //     d3.select('#slider3textmin').text(value[ 0 ]);
-    //     d3.select('#slider3textmax').text(value[ 1 ]);
-    // }));    //=========================================================
 
 
 
