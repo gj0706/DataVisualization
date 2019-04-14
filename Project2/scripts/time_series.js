@@ -19,7 +19,7 @@ var words = ["United States", "France", "Great Britain", "Italy", "Germany", "Ca
 
 // Set the dimensions of the canvas / graph
 const margin = {top: 80, right: 90, bottom: 150, left: 80},
-    width = 900 - margin.left - margin.right,
+    width = 700 - margin.left - margin.right,
     height = 600 - margin.top - margin.bottom;
 
 // Set the dimensions of zoom area
@@ -92,7 +92,7 @@ var context = svg.append("g")
     .attr("class", "context")
     .attr("transform", "translate(" + marginZoom.left + "," + marginZoom.top + ")");
 
-var div = d3.select("body").append("div")
+var div = d3.select("#timeSeries").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
@@ -231,37 +231,37 @@ d3.csv("data/year_word_freq.csv", function(error, data) {
 
 
 // //======================= Add legend and mouse click effect =============================
-//     //spacing for the legend
-//     // legendSpace = width / newData.length;
-//     const legendSpace = (height+margin.top) / newData.length;
-//
-//     newData.forEach(function(d, i) {
-//         svg.append("text")
-//             .attr("x", width + margin.right + margin.left/ 2)
-//             // .attr("x", (legengendSpace / 2) + i * legendSpace) // spacing
-//             // .attr("y", (height + (margin.bottom / 2) + 15)
-//             .attr("y", (legendSpace / 2) + i * legendSpace)
-//             .attr("class", "legend")    // style the legend
-//             .style("fill", function () { // dynamic colors
-//                 return d.color = color(d.key);
-//             })
-//             .on("click", function () {
-//                 // Determine if current line is visible
-//                 var active = d.active ? false : true,
-//                     newOpacity = active ? 0 : 1;
-//                 // Hide or show the elements based on the ID
-//                 d3.select("#tag" + d.key.replace(/\s+/g, ''))
-//                     .transition().duration(100)
-//                     .style("opacity", newOpacity);
-//                 d3.select("#tag1" + d.key.replace(/\s+/g, ''))
-//                     .transition().duration(100)
-//                     .style("opacity", newOpacity);
-//                 // Update whether or not the elements are active
-//                 d.active = active;
-//             })
-//             .text(d.key);
-//
-//     })
+    //spacing for the legend
+    // legendSpace = width / newData.length;
+    const legendSpace = (height+margin.top) / newData.length;
+
+    newData.forEach(function(d, i) {
+        svg.append("text")
+            .attr("x", width + margin.right + margin.left/2)
+            // .attr("x", (legengendSpace / 2) + i * legendSpace) // spacing
+            // .attr("y", (height + (margin.bottom / 2) + 15)
+            .attr("y", (legendSpace / 2) + i * legendSpace)
+            .attr("class", "legend")    // style the legend
+            .style("fill", function () { // dynamic colors
+                return d.color = color(d.key);
+            })
+            .on("click", function () {
+                // Determine if current line is visible
+                var active = d.active ? false : true,
+                    newOpacity = active ? 0 : 1;
+                // Hide or show the elements based on the ID
+                d3.select("#tag" + d.key.replace(/\s+/g, ''))
+                    .transition().duration(100)
+                    .style("opacity", newOpacity);
+                d3.select("#tag1" + d.key.replace(/\s+/g, ''))
+                    .transition().duration(100)
+                    .style("opacity", newOpacity);
+                // Update whether or not the elements are active
+                d.active = active;
+            })
+            .text(d.key);
+
+    })
 // debugger
 //====================== Draw x, y labels ===========================================
     // draw the title of the chart

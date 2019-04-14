@@ -1,5 +1,5 @@
 //======================draw and update world cloud=====================================
-var cloudWidth = 600;
+var cloudWidth = 500;
 var cloudHeight = 500;
 
 var fontScale = d3.scale.linear().range([0, 50]);
@@ -9,7 +9,7 @@ var svg1 = d3.select("#cloud").append("svg")
     .attr("width", cloudWidth)
     .attr("height", cloudHeight)
     .append("g")
-    .attr("transform", "translate(" + cloudWidth / 2 + "," + cloudHeight / 2 + ")");
+    .attr("transform", "translate(" + cloudWidth/2 + "," + cloudHeight/2  + ")");
 
 // var svg2 = d3.select(".word-cloud-div").append("svg")
 //     .attr("width", cloudWidth)
@@ -28,9 +28,9 @@ var words = ["United States", "France", "Great Britain", "Italy", "Germany", "Ca
     "Alexandros Theofilakis", "Jean Lucien Nicolas Jacoby", "Andreas Wecker", "Alfrd (Arnold-) Hajs (Guttmann-)", "Alfred James Munnings"];
 
 
-d3.csv("data/year_word_freq.csv", function(error, data){
-    // d3.csv("data/word_freq.csv", function(error1, data1) {
-    //
+d3.csv("data/year_word_freq.csv", function(error, data) {
+    // d3.csv("data/word_freq.csv", function (error1, data1) {
+        //
         data.forEach(function (d) {
             d.frequency = +d.frequency;
             d.year = +d.year;
@@ -56,31 +56,6 @@ d3.csv("data/year_word_freq.csv", function(error, data){
             });
         });
         // debugger
-
-        //
-        // var layout = d3.layout.cloud()
-        //     .size([cloudWidth, cloudHeight])
-        //     .words(data.map(function(d){return{text:d.word,size:d.frequency*5 ,frequency:d.frequency}}))
-        //     .rotate(0)
-        //     .font("Impact")
-        //     .fontSize(function (d) {
-        //         return d.size;
-        //     })
-        //     .on("end", draw);
-        // layout.start();
-
-// debugger
-
-
-        // // Initialize tooltip
-        // var wordTip = d3.tip()
-        //     .attr('class', 'd3-tip')
-        //     .offset([-10, 0])
-        //     .html(function (d) {
-        //         return "<strong>Frequency:</strong> <span >" + d + "</span>";
-        //     });
-        // svg1.call(wordTip);
-
 
         //draw cloud
         function draw(words) {
@@ -152,60 +127,63 @@ d3.csv("data/year_word_freq.csv", function(error, data){
         }
 
 
-debugger
+        // debugger
 
-    // update cloud
-    var updateCloud = function (data) {
-        fontScale.domain([d3.min(data, function (d) {
-            return d.frequency;
-        }),
-            d3.max(data, function (d) {
+        // update cloud
+        var updateCloud = function (data) {
+            fontScale.domain([d3.min(data, function (d) {
                 return d.frequency;
             }),
-        ]);
-        d3.layout.cloud()
-            .size([cloudWidth, cloudHeight])
-            // .words(data)
-            .words(data.map(function(d){return{text:d.word,size:d.frequency*5 ,frequency:d.frequency}}))
-            .rotate(0)
+                d3.max(data, function (d) {
+                    return d.frequency;
+                }),
+            ]);
+            d3.layout.cloud()
+                .size([cloudWidth, cloudHeight])
+                // .words(data)
+                .words(data.map(function (d) {
+                    return {text: d.word, size: d.frequency * 5, frequency: d.frequency}
+                }))
+                .rotate(0)
+                // .rotate(function () { return ~~(Math.random() * 2) * 90; })
+                .text(function (d) {
+                    return d.text;
+                })
+                .font("Impact")
+                .fontSize(function (d) {
+                    return fontScale(d.frequency);
+                })
+                .on("end", draw)
+                .start();
+        }
+
+
+        var dropdownChange = function () {
+            var newYear = +d3.select(this).property('value'),
+                newData2 = data.filter(d => d.year === newYear);
+            newData3 = data1.filter(d=>d.year===newYear);
+            updateCloud(newData2);
+            updateGraph(newData3)
+            // debugger
+        };
+        // Get names of years, for dropdown
+        var years = Object.keys(yearMap).sort();
+
+        var dropdown = d3.select("#dropDown")
+            .insert("select", "svg")
+            .on("change", dropdownChange);
+
+        dropdown.selectAll("option")
+            .data(years)
+            .enter().append("option")
+            .attr("value", function (d) {
+                return d;
+            })
             .text(function (d) {
-                return d.text;
-            })
-            .font("Impact")
-            .fontSize(function (d) {
-                return fontScale(d.frequency);
-            })
-            .on("end", draw)
-            .start();
+                return d;
+            });
 
-    }
-
-
-    var dropdownChange = function () {
-        var newYear = +d3.select(this).property('value'),
-            newData2 = data.filter(d=>d.year===newYear);
-
-        updateCloud(newData2);
-        // debugger
-    };
-    // Get names of years, for dropdown
-    var years = Object.keys(yearMap).sort();
-
-    var dropdown = d3.select("#dropDown")
-        .insert("select", "svg")
-        .on("change", dropdownChange);
-
-    dropdown.selectAll("option")
-        .data(years)
-        .enter().append("option")
-        .attr("value", function (d) {
-            return d;
-        })
-        .text(function (d) {
-            return d;
-        });
-    var initialData = data.filter(d=>d.year === 1896);
-    updateCloud(initialData);
-
+        var initialData = data.filter(d => d.year === 1896);
+        updateCloud(initialData);
 
 })

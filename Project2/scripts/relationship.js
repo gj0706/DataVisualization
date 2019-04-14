@@ -4,7 +4,7 @@ var units = "Widgets";
 // set the canvas
 var margin1 = {top: 10, right: 10, bottom: 10, left: 10},
     width1 = 1000 - margin.left - margin.right,
-    height1 = 1000 - margin.top - margin.bottom;
+    height1 = 900 - margin.top - margin.bottom;
 //
 // width1 = 800;
 // height1 = 600
@@ -20,15 +20,16 @@ var linkScale = d3.scale.linear()
 var svg2 = d3.select("#graph").append("svg")
     // .attr("width", width1 + margin1.left + margin1.right)
     // .attr("height", height1 + margin1.top + margin1.bottom)
-    .attr("width", width1)
+    .attr("width", width1 + 300)
     .attr("height", height1)
     .append("g")
     .attr("transform",
-        "translate(" + margin1.left + "," + margin1.top + ")");
+        "translate(" + margin1.left  + "," + margin1.top + ")");
 
-
+var data1;
 
 d3.csv("data/test.csv",function(error,data){
+    data1 = data;
     //set up an empty graph
     graph = {"nodes" : [], "links" : []};
 
@@ -36,51 +37,56 @@ d3.csv("data/test.csv",function(error,data){
     var keys = Object.keys(data[0]);
 
 
-    graph = {"nodes" : [], "links" : []};
-    data.forEach(function(d){
-        adduniquenodes(d.name);
-        adduniquenodes(d.team);
-        adduniquenodes(d.sport);
-        adduniquenodes(d.event);
-        adduniquenodes(d.city);
-        adduniquenodes(d.year);
-        graph.links.push ( {"source" : d.name,
-            "target" :d.team,
-            "value" : countvalues('name',d.name,'team',d.team)
-        });
-    //     graph.links.push ( {"source" : d.team,
-    //         "target" :d.sport,
-    //         "value" : countvalues('team',d.team,'sport',d.sport)
-    //     });
+    // graph = {"nodes" : [], "links" : []};
+    // data.forEach(function(d){
+    //     adduniquenodes(d.name);
+    //     adduniquenodes(d.team);
+    //     adduniquenodes(d.sport);
+    //     adduniquenodes(d.event);
+    //     adduniquenodes(d.city);
+    //     adduniquenodes(d.year);
+        // graph.links.push ( {"source" : d.name,
+        //     "target" :d.team,
+        //     "value" : countvalues('name',d.name,'team',d.team)
+        // });
+        //
+        // graph.links.push ( {"source" : d.team,
+        //     "target" :d.name,
+        //     "value" : countvalues('team',d.team,'name',d.name)
+        // });
+        // graph.links.push ( {"source" : d.team,
+        //     "target" :d.sport,
+        //     "value" : countvalues('team',d.team,'sport',d.sport)
+        // });
     //     graph.links.push ( {"source" : d.sport,
     //         "target" :d.event,
     //         "value" : countvalues('sport',d.sport,'event',d.event)
     //     });
-    });
+    // });
 
 
 
 
     // process the data to create nodes and links
 
-    // data.forEach(function(d) {
-    //     keys.forEach(function (key, i) {
-    //         if (d[key] != "none") {
-    //             adduniquenodes(d[key]);
-    //         } //add node if not "none"
-    //         var c = 1; //checks next column
-    //         if (d[keys[i + c]] != undefined && d[key] !== "none") {
-    //             while (d[keys[i + c]] === "none") {
-    //                 c = c + 1;     //jump to next column if "none" found in the column next
-    //             }
-    //             graph.links.push({
-    //                 "source": d[key],
-    //                 "target": d[keys[i + c]],
-    //                 "value": countvalues(key, d[key], keys[i + c], d[keys[i + c]])
-    //             });
-    //         }
-    //     })
-    // });
+    data.forEach(function(d) {
+        keys.forEach(function (key, i) {
+            if (d[key] != "none") {
+                adduniquenodes(d[key]);
+            } //add node if not "none"
+            var c = 1; //checks next column
+            if (d[keys[i + c]] != undefined && d[key] !== "none") {
+                while (d[keys[i + c]] === "none") {
+                    c = c + 1;     //jump to next column if "none" found in the column next
+                }
+                graph.links.push({
+                    "source": d[key],
+                    "target": d[keys[i + c]],
+                    "value": countvalues(key, d[key], keys[i + c], d[keys[i + c]])
+                });
+            }
+        })
+    });
         debugger
         function adduniquenodes(value) {
             if (graph.nodes.indexOf(value) === -1){
@@ -151,6 +157,7 @@ debugger
         .data(force.links())
         .enter()
         .append("svg:path")
+        // .filter(d=>d.weight > 10)
         .classed("link", true)
         .attr("marker-end", "url(#end)");
 
@@ -268,6 +275,10 @@ debugger
 });
 
 
+function updataGraph(data){
 
+
+
+}
 
 
