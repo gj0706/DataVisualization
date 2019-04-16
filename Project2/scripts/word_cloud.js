@@ -9,7 +9,7 @@ var svg1 = d3.select("#cloud").append("svg")
     .attr("width", cloudWidth)
     .attr("height", cloudHeight)
     .append("g")
-    .attr("transform", "translate(" + cloudWidth/2 + "," + cloudHeight/2  + ")");
+    .attr("transform", "translate(" + cloudWidth / 2 + "," + cloudHeight / 2 + ")");
 
 // var svg2 = d3.select(".word-cloud-div").append("svg")
 //     .attr("width", cloudWidth)
@@ -28,9 +28,12 @@ var words = ["United States", "France", "Great Britain", "Italy", "Germany", "Ca
     "Alexandros Theofilakis", "Jean Lucien Nicolas Jacoby", "Andreas Wecker", "Alfrd (Arnold-) Hajs (Guttmann-)", "Alfred James Munnings"];
 
 
-d3.csv("data/year_word_freq.csv", function(error, data) {
-    // d3.csv("data/word_freq.csv", function (error1, data1) {
+d3.csv("data/year_word_freq.csv", function (error, data) {
+
+    d3.csv("data/test1.csv", function (error1, data1) {
         //
+        data1.forEach(d=>{d.year = +d.year});
+
         data.forEach(function (d) {
             d.frequency = +d.frequency;
             d.year = +d.year;
@@ -157,11 +160,10 @@ d3.csv("data/year_word_freq.csv", function(error, data) {
                 .start();
         }
 
-
         var dropdownChange = function () {
             var newYear = +d3.select(this).property('value'),
                 newData2 = data.filter(d => d.year === newYear);
-            newData3 = data1.filter(d=>d.year===newYear);
+            var newData3 = data1.filter(d => d.year === newYear);
             updateCloud(newData2);
             updateGraph(newData3)
             // debugger
@@ -183,7 +185,11 @@ d3.csv("data/year_word_freq.csv", function(error, data) {
                 return d;
             });
 
+
+
         var initialData = data.filter(d => d.year === 1896);
         updateCloud(initialData);
+        updateGraph(data1.filter(d=>d.year == 1896));
 
+    })
 })

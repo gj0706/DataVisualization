@@ -8,16 +8,22 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/d3.slider.css">
 
 
-
+    <!--d3-->
     <script src="https://d3js.org/d3.v3.min.js"></script>
-    <script src="scripts/d3.tooltip.js"></script>
+    <!--<script src="scripts/d3.tooltip.js"></script>-->
 
+    <!--tooltip-->
     <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-    <!--force layout-->
-    <!--<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>-->
+
+    <!--force layout search-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type='text/javascript' src="http://code.jquery.com/ui/1.11.3/jquery-ui.min.js"> </script>
+    <script type='text/javascript' src="http://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css"> </script>
+
+    <!--geomap-->
+    <script src="http://d3js.org/topojson.v0.min.js"></script>
 
 
 </head>
@@ -60,22 +66,23 @@
         shape-rendering: crispEdges;
     }
 
-    div.tooltip {
-        position: absolute;
-        text-align: center;
-        padding: 5px;
-        font: 12px sans-serif;
-        background: black;
-        color: white;
-        border: 1px;
-        border-radius: 4px;
-        pointer-events: none;
-    }
+    /*div.tooltip {*/
+        /*position: absolute;*/
+        /*text-align: center;*/
+        /*padding: 5px;*/
+        /*font: 12px sans-serif;*/
+        /*background: black;*/
+        /*color: white;*/
+        /*border: 1px;*/
+        /*border-radius: 4px;*/
+        /*pointer-events: none;*/
+    /*}*/
 
     button{
         position: relative;
         left: 310px;
     }
+
     .d3-tip {
         line-height: 1;
         font-weight: bold;
@@ -106,28 +113,6 @@
     }
 
 
-    /*sankey diagram*/
-    .node rect {
-        cursor: move;
-        fill-opacity: .9;
-        shape-rendering: crispEdges;
-    }
-
-    .node text {
-        pointer-events: none;
-        text-shadow: 0 1px 0 #fff;
-    }
-
-    .link {
-        fill: none;
-        stroke: #000;
-        stroke-opacity: .2;
-    }
-
-    .link:hover {
-        stroke-opacity: .5;
-    }
-
     /*force layout*/
     path.link {
         fill: none;
@@ -147,6 +132,15 @@
         pointer-events: none;
     }
 
+    /*map*/
+    path {
+        stroke: white;
+        stroke-width: 0.25px;
+        fill: olivedrab;
+    }
+
+
+
 </style>
 <body id="myPage">
 
@@ -154,10 +148,14 @@
 <div class="w3-top">
     <div class="w3-bar w3-theme-d2 w3-left-align">
         <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-        <a href="#wordCloud" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Home</a>
+        <a href="#wordCloud" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Cloud</a>
         <!--<a href="#WordCloud" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Word Cloud</a>-->
         <a href="#relationship" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Relationship</a>
         <a href="#geoMap" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Geomap</a>
+        <!--<a href="#">Please select a year</a>-->
+        <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Please select a year</a>
+        <div class="w3-bar-item" id= "dropDown"> </div>
+        <!--<div class="w3-center" id= "dropDown"> </div>-->
     </div>
 
 </div>
@@ -169,19 +167,28 @@
     <div class="w3-row"><br>
         <div class="w3-center">
             <h4>Word Cloud and Time series </h4>
-            <p align="left">Please select a year </p>
-            <div class="w3-left"  id= "dropDown"></div>
+
             <!--<div id="slider"></div>-->
             <div class="w3-left" id="cloud"></div>
+            <div id="option">
+                <input name="updateButton" type="button" value="Select/Clear all lines" />
+            </div>
             <div class="w3-quarter" id="timeSeries"></div>
         </div>
     </div>
     <div class="w3-row" ><br>
         <h4 id="relationship">Relationship: </h4>
-        <div class="w3-left" id="graph"></div>
+        <div class="ui-widget">
+            <input id="search">
+            <button type="button" onclick="searchNode()">Search</button>
+        </div>
+        <div class="w3-center" id="graph"></div>
     </div>
     <div class="w3-row" ><br>
         <h4 id="geoMap">Map: </h4>
+
+
+
         <div id="map">
             <div id="location"></div>
         </div>
@@ -190,17 +197,11 @@
 
 
 <script src="scripts/d3.layout.cloud.js"></script>
+<script src="scripts/relationship.js"></script>
 <script src="scripts/word_cloud.js"></script>
-<script src="scripts/sankey.js"></script>
-
 <!--<script src="scripts/d3.slider.js"></script>-->
 <script src="scripts/time_series.js"></script>
-<script src="scripts/relationship.js"></script>
-<script>
-
-
-
-</script>>
+<script src="scripts/geo_map.js"></script>
 
 
 
