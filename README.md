@@ -2,6 +2,9 @@
 
 Project2 for course CS5331. It is a project on interactive text, network and geospatial visualization. The project is a web-based application in javascript, html, and D3
 
+![alt text]()
+
+
 ### Video demo link:
 [Video demo on YouTube](https://www.youtube.com/watch?v=la17bteKVQg)
 
