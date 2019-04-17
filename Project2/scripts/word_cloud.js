@@ -30,7 +30,7 @@ var words = ["United States", "France", "Great Britain", "Italy", "Germany", "Ca
 
 d3.csv("data/year_word_freq.csv", function (error, data) {
 
-    d3.csv("data/athletes.csv", function (error1, data1) {
+    d3.csv("data/network.csv", function (error1, data1) {
         //
         data1.forEach(d=>{d.year = +d.year});
 
