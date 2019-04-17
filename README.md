@@ -6,7 +6,7 @@ Project2 for course CS5331. It is a project on interactive text, network and geo
 [Video demo on YouTube](https://www.youtube.com/watch?v=la17bteKVQg)
 
 ### Web link:
-[Data Visualization Project 1](https://gj0706.github.io/DataVisualization/Project2/index.html)
+[Text and Network Visualization:](https://gj0706.github.io/DataVisualization/Project2/index.html)
 
 ## Data description:
 
