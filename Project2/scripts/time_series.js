@@ -1,6 +1,3 @@
-
-
-
 var words = ["United States", "France", "Great Britain", "Italy", "Germany", "Canada", "Japan", "Sweden", "Australia", "Hungary",
     "London", "Athina", "Sydney", "Atlanta", "Rio de Janeiro", "Beijing", "Barcelona", "Los Angeles", "Seoul", "Munich", "Athletics",
     "Gymnastics", "Swimming", "Shooting", "Cycling", "Fencing", "Rowing", "Cross Country Skiing", "Alpine Skiing", "Wrestling",
@@ -23,7 +20,7 @@ const margin = {top: 80, right: 90, bottom: 150, left: 80},
     height = 600 - margin.top - margin.bottom;
 
 // Set the dimensions of zoom area
-const marginZoom = {top:500, right:90, bottom:30,left:80},
+const marginZoom = {top: 500, right: 90, bottom: 30, left: 80},
     heightZoom = 600 - marginZoom.top - marginZoom.bottom;
 
 // Add svg canvas to the body of the page
@@ -49,11 +46,11 @@ var parse = d3.time.format("%Y").parse;
 
 // Set the ranges
 const x = d3.time.scale().range([0, width]);
-const y = d3.scale.linear().range([height-20, 0]);
+const y = d3.scale.linear().range([height - 20, 0]);
 const color = d3.scale.category20();
 // Set the ranges of zoomed x and y
 const xZoom = d3.time.scale().range([0, width]);
-const yZoom = d3.scale.linear().range([heightZoom -10, 0]);
+const yZoom = d3.scale.linear().range([heightZoom - 10, 0]);
 
 // Define the axes
 const xAxis = d3.svg.axis().scale(x).orient("bottom").ticks(6);
@@ -69,17 +66,29 @@ var brush = d3.svg.brush()
 // Define main graph line
 const valueline = d3.svg.line()
 // .interpolate("basis")
-    .defined(function(d) { return !isNaN(d.frequency); })
+    .defined(function (d) {
+        return !isNaN(d.frequency);
+    })
     .interpolate("cubic")
-    .x(function(d) { return x(d.year); })
-    .y(function(d) { return y(d.frequency); });
+    .x(function (d) {
+        return x(d.year);
+    })
+    .y(function (d) {
+        return y(d.frequency);
+    });
 
 // Define zoomed line
 const valuelineZoom = d3.svg.line()
-    .defined(function(d) { return !isNaN(d.frequency); })
+    .defined(function (d) {
+        return !isNaN(d.frequency);
+    })
     .interpolate("cubic")
-    .x(function(d){return xZoom(d.year)})
-    .y(function(d){return yZoom(d.frequency)});
+    .x(function (d) {
+        return xZoom(d.year)
+    })
+    .y(function (d) {
+        return yZoom(d.frequency)
+    });
 
 
 // add main graph area
@@ -98,7 +107,7 @@ var div = d3.select("#timeSeries").append("div")
 
 //========================== data processing  ==================================
 // Load the data
-d3.csv("data/year_word_freq.csv", function(error, data) {
+d3.csv("data/year_word_freq.csv", function (error, data) {
     data.forEach(function (d) {
         d.year = parse(d.year);
         d.frequency = +d.frequency;
@@ -139,7 +148,7 @@ d3.csv("data/year_word_freq.csv", function(error, data) {
     var lineTip = d3.tip()
         .attr('class', 'd3-tip')
         .offset([-10, 0])
-        .html(function(d,i) {
+        .html(function (d, i) {
             return "<strong>" + d.key + " </strong>";
 
         })
@@ -190,10 +199,9 @@ d3.csv("data/year_word_freq.csv", function(error, data) {
             // div.transition()
             //     .duration(500)
             //     .style("opacity", 0)
-            d3.select(this).attr("opacity", "1");
+            // d3.select(this).attr("opacity", "1");
             lineTip.hide();
         });
-
 
 
     focus.append("g")
@@ -214,7 +222,9 @@ d3.csv("data/year_word_freq.csv", function(error, data) {
         .style("stroke", function (d) {
             return d.color = color(d.key);
         })
-        .attr("id", function(d){return 'tag1' + d.key.replace(/\s+/g, '')}) //id for click effect
+        .attr("id", function (d) {
+            return 'tag1' + d.key.replace(/\s+/g, '')
+        }) //id for click effect
         .attr("clip-path", "url(#clip)");
 
     context.append("g")
@@ -227,18 +237,19 @@ d3.csv("data/year_word_freq.csv", function(error, data) {
         .call(brush)
         .selectAll("rect")
         .attr("y", -6)
-        .attr("height", heightZoom + 7  );
+        .attr("height", heightZoom + 7);
 
 
 // //======================= Add legend and mouse click effect =============================
-    //spacing for the legend
+    // spacing for the legend
     // legendSpace = width / newData.length;
     const legendSpace = (height+margin.top) / newData.length;
 
     newData.forEach(function(d, i) {
+
         svg.append("text")
-            .attr("x", width + margin.right + margin.left/2)
-            // .attr("x", (legengendSpace / 2) + i * legendSpace) // spacing
+            .attr("x", width + margin.right + margin.left/1.8)
+            // .attr("x", (legendSpace / 2) + i * legendSpace) // spacing
             // .attr("y", (height + (margin.bottom / 2) + 15)
             .attr("y", (legendSpace / 2) + i * legendSpace)
             .attr("class", "legend")    // style the legend
@@ -262,7 +273,8 @@ d3.csv("data/year_word_freq.csv", function(error, data) {
             .text(d.key);
 
     })
-// debugger
+
+debugger
 //====================== Draw x, y labels ===========================================
     // draw the title of the chart
     svg.append("text")
@@ -282,7 +294,7 @@ d3.csv("data/year_word_freq.csv", function(error, data) {
     svg.append("text")
         .attr("transform", "rotate(-90)")
         .attr("y", margin.left - 50)
-        .attr("x", 0 - ((height+ heightZoom) / 2))
+        .attr("x", 0 - ((height + heightZoom) / 2))
         .attr("dy", "1em")
         .style("text-anchor", "middle")
         .text("Frequency");
@@ -292,7 +304,7 @@ d3.csv("data/year_word_freq.csv", function(error, data) {
     // select/clear all the lines
     var toggle = true;
     d3.select("input")
-        .on("click", function() {
+        .on("click", function () {
             d3.selectAll("path.line")
                 .style("opacity", +(toggle = !toggle))
         })
@@ -302,7 +314,9 @@ d3.csv("data/year_word_freq.csv", function(error, data) {
 function brush() {
     x.domain(brush.empty() ? xZoom.domain() : brush.extent());
     focus.selectAll("path.line")
-        .attr("d",  function(d) {return valueline(d.values)});
+        .attr("d", function (d) {
+            return valueline(d.values)
+        });
     focus.select(".x.axis").call(xAxis);
     focus.select(".y.axis").call(yAxis);
 }

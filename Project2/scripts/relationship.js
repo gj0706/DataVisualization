@@ -2,8 +2,8 @@ var units = "Widgets";
 
 // set the canvas
 var margin1 = {top: 10, right: 10, bottom: 10, left: 10},
-    width1 = 1000 - margin1.left - margin1.right,
-    height1 = 900 - margin1.top - margin1.bottom;
+    width1 = 900 - margin1.left - margin1.right,
+    height1 = 800 - margin1.top - margin1.bottom;
 //
 // width1 = 800;
 // height1 = 600
@@ -40,9 +40,12 @@ function searchNode() {
             return d.name != selectedVal;
         });
         selected.style("opacity", "0");
+
         var link = svg2.selectAll(".link")
         link.style("opacity", "0");
-        d3.selectAll(".node, .link").transition()
+        d3.selectAll(".node, .link")
+            .style("color", "#ccc")
+            .transition()
             .duration(5000)
             .style("opacity", 1);
     }
@@ -50,6 +53,7 @@ function searchNode() {
 function updateGraph(data) {
     //Clear the current graph
     svg2.selectAll("*").remove();
+
     //set up an empty graph
     graph = {"nodes": [], "links": []};
 
@@ -61,28 +65,30 @@ function updateGraph(data) {
 
     data.forEach(function (d) {
         // adduniquenodes(d.year);
+        // adduniquenodes(d.name);
         adduniquenodes(d.team);
         adduniquenodes(d.sport);
         adduniquenodes(d.medal);
         // adduniquenodes(d.event);
         // adduniquenodes(d.city);
         // adduniquenodes(d.year);
-        graph.links.push({
-            "source": d.sport,
-            "target": d.medal,
-            "value": countvalues('sport', d.sport, 'medal', d.medal)
-        });
-        //
-        // graph.links.push({
-        //     "source": d.year,
-        //     "target": d.team,
-        //     "value": countvalues('year', d.year, 'team', d.team)
-        // });
 
+        // graph.links.push({
+        //     "source": d.medal,
+        //     "target": d.sport,
+        //     "value": countvalues('medal', d.medal, 'sport', d.sport)
+        // });
+        // //
         graph.links.push({
             "source": d.team,
             "target": d.sport,
             "value": countvalues('team', d.team, 'sport', d.sport)
+        });
+
+        graph.links.push({
+            "source": d.sport,
+            "target": d.medal,
+            "value": countvalues('sport', d.medal, 'team', d.medal)
         });
         //     graph.links.push ( {"source" : d.sport,
         //         "target" :d.event,
@@ -149,6 +155,16 @@ function updateGraph(data) {
 
     // debugger
 
+    /* Initialize tooltip */
+    var nodeTip = d3.tip()
+        .attr('class', 'd3-tip')
+        .offset([-10, 0])
+        .html(function (d) {
+            return "<strong>" + d.name + " </strong>";
+        });
+
+    svg1.call(nodeTip);
+
     linkScale.domain(d3.extent(graph, function (d) {
         return d.value;
     }));
@@ -158,8 +174,8 @@ function updateGraph(data) {
         .nodes(graph.nodes)
         .links(graph.links)
         .size([width1, height1])
-        .linkDistance(100)
-        .charge(-300)
+        .linkDistance(200)
+        .charge(-200)
 
         .on("tick", tick)
         // .on("end", draw)
@@ -197,7 +213,6 @@ function updateGraph(data) {
 
     link.enter()
         .append("path")
-        // .filter(d=>d.weight > 10)
         .classed("link", true)
         .attr("marker-end", "url(#end)");
 
@@ -220,9 +235,11 @@ function updateGraph(data) {
                 else
                     return 1;
             });
+            nodeTip.show(d);
         })
         .on("mouseout", function () {
             link.style("stroke-width", 1)
+            nodeTip.hide();
         })
         .on("dblclick", dblclick)
         .call(drag);
@@ -236,7 +253,7 @@ function updateGraph(data) {
 
     // add the text
     node.append("text")
-        .attr("x", 12)
+        .attr("x", 20)
         .attr("dy", ".35em")
         .text(function (d) {
             return d.name;
@@ -257,11 +274,12 @@ function updateGraph(data) {
 
     // add the curvy lines
     function tick() {
+
+
         link.attr("d", function (d) {
             var dx = d.target.x - d.source.x,
-                dy = d.target.y - d.source.y,
-                dr = Math.sqrt(dx * dx + dy * dy);
-
+                dy = d.target.y - d.source.y;
+                dr = Math.sqrt(dx * dx + dy * dy)
             return "M" +
                 d.source.x + "," + d.source.y +
                 "A" + dr + "," + dr + " 0 0,1 " +
@@ -275,20 +293,22 @@ function updateGraph(data) {
         });
     }
 
-    function click() {
-        d3.select(this).select("text").transition()
-            .duration(750)
-            .attr("x", 22)
-            .style("fill", "steelblue")
-            .style("stroke", "lightsteelblue")
-            .style("stroke-width", ".5px")
-            .style("font", "20px sans-serif");
+    // // click on the node will cause it enlarged
+    // function click() {
+    //     d3.select(this).select("text").transition()
+    //         .duration(750)
+    //         .attr("x", 22)
+    //         .style("fill", "steelblue")
+    //         .style("stroke", "lightsteelblue")
+    //         .style("stroke-width", ".5px")
+    //         .style("font", "20px sans-serif");
+    //
+    //     d3.select(this).select("circle").transition()
+    //         .duration(750)
+    //         .attr("r", 16);
+    // }
 
-        d3.select(this).select("circle").transition()
-            .duration(750)
-            .attr("r", 16);
-    }
-
+    // double click on the node will cause stuck node back to normal
     function dblclick(d) {
         d3.select(this).classed("fixed", d.fixed = false);
         // d3.select(this).select("text").transition()
