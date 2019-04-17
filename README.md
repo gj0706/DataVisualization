@@ -2,7 +2,7 @@
 
 Project2 for course CS5331. It is a project on interactive text, network and geospatial visualization. The project is a web-based application in javascript, html, and D3
 
-![alt text]()
+![alt text](https://github.com/gj0706/DataVisualization/blob/master/Project2/images/%3CGuo%3E.gif)
 
 
 ### Video demo link:
