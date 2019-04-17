@@ -2,6 +2,12 @@
 
 Project2 for course CS5331. It is a project on interactive text, network and geospatial visualization. The project is a web-based application in javascript, html, and D3
 
+### Video demo link:
+[Video demo on YouTube](https://www.youtube.com/watch?v=la17bteKVQg)
+
+### Web link:
+[Text and Network Visualization:](https://gj0706.github.io/DataVisualization/Project2/index.html)
+
 ## Data description:
 
 1. Source: [kaggle.com](https://www.kaggle.com/heesoo37/120-years-of-olympic-history-athletes-and-results). Data used for this project is "120 years of Olympic history: athletes and results",a historical dataset on the modern Olympic Games, including all the names of the athlets, teams, sports, cities, etc., from Athens 1896 to Rio 2016. 
@@ -22,16 +28,16 @@ Project2 for course CS5331. It is a project on interactive text, network and geo
 
 2. Time series: shows the frequencies of each word over time, from 1896 to 2016. Hover on a line will show the word.
 
-![alt text](https://github.com/gj0706/DataVisualization/blob/master/Project2/images/cloud.png)
+![alt text](https://github.com/gj0706/DataVisualization/blob/master/Project2/images/home.png)
 
 
 3. Relationship: with the nodes being team, sport and medal, links connecting team and sport, sport and medal, the force layout graph shows a network of which team won what type of medal in wich sport. The dropdown menu for the word cloud controls the network, too. User can select a year to see how team, sport and medal are related to each other. The search input helps locate a certain word well. It has an auto-complete feature so by typping in an initial letter, user can find a drop down of all the words start with that letter and select one. 
 
-![alt text]()
+![alt text](https://github.com/gj0706/DataVisualization/blob/master/Project2/images/relation.png)
 
 3. Map: shows all the locations appeared in the top 50 words. The red dots are plotted on the map by the latitude and longtitude of the locations. The map is zoomable.
 
-![alt text]()
+![alt text](https://github.com/gj0706/DataVisualization/blob/master/Project2/images/map.png)
 
 
 
@@ -39,23 +45,27 @@ Project2 for course CS5331. It is a project on interactive text, network and geo
 
 1. The Olympic games shows a pattern on the line chart, indicating that it is getting more reguarly held and the venues are becoming stable. On the contrast, in the early years of Olympics, the number of teams and sports varient greatly over time. 
 
-![alt text]()
+![alt text](https://github.com/gj0706/DataVisualization/blob/master/Project2/images/pattern.png)
 
 
 2. The word cloud shows that in 1948, Japan and Germany both have zero frequency on the time series line chart because they were not invited to attend due to World War II. 
 
 
+![alt text](https://github.com/gj0706/DataVisualization/blob/master/Project2/images/Japan.png)
 
 
+![alt text](https://github.com/gj0706/DataVisualization/blob/master/Project2/images/Germany.png)
 
 
 ### References:
 
 http://developer.mapquest.com/documentation/samples/geocoding/v1/batch/
 
+https://en.wikipedia.org/wiki/1948_Summer_Olympics
 
 
 
+=============================================================================================================================
 
 
 ## Project1 description:
