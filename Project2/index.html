@@ -15,7 +15,7 @@
     <!--<script src="scripts/d3.tooltip.js"></script>-->
 
     <!--tooltip-->
-    <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+    <script src="https://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 
     <!--force layout search-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -23,7 +23,7 @@
     <script type='text/javascript' src="http://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css"> </script>
 
     <!--geomap-->
-    <script src="http://d3js.org/topojson.v0.min.js"></script>
+    <script src="https://d3js.org/topojson.v0.min.js"></script>
 
 
 </head>
@@ -66,17 +66,17 @@
         shape-rendering: crispEdges;
     }
 
-    /*div.tooltip {*/
-        /*position: absolute;*/
-        /*text-align: center;*/
-        /*padding: 5px;*/
-        /*font: 12px sans-serif;*/
-        /*background: black;*/
-        /*color: white;*/
-        /*border: 1px;*/
-        /*border-radius: 4px;*/
-        /*pointer-events: none;*/
-    /*}*/
+    div.tooltip {
+        position: absolute;
+        text-align: center;
+        padding: 5px;
+        font: 12px sans-serif;
+        background: black;
+        color: white;
+        border: 1px;
+        border-radius: 4px;
+        pointer-events: none;
+    }
 
     button{
         position: relative;
@@ -168,11 +168,10 @@
         <div class="w3-center">
             <h4>Word Cloud and Time series </h4>
 
-            <!--<div id="slider"></div>-->
             <div class="w3-left" id="cloud"></div>
-            <div id="option">
-                <input name="updateButton" type="button" value="Select/Clear all lines" />
-            </div>
+            <!--<div id="option">-->
+                <!--<input name="updateButton" type="button" value="Select/Clear all lines" />-->
+            <!--</div>-->
             <div class="w3-quarter" id="timeSeries"></div>
         </div>
     </div>
