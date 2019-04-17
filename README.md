@@ -22,7 +22,7 @@ Project2 for course CS5331. It is a project on interactive text, network and geo
 
 2. Time series: shows the frequencies of each word over time, from 1896 to 2016. Hover on a line will show the word.
 
-![alt text]()
+![alt text](https://github.com/gj0706/DataVisualization/blob/master/Project2/images/cloud.png)
 
 
 3. Relationship: with the nodes being team, sport and medal, links connecting team and sport, sport and medal, the force layout graph shows a network of which team won what type of medal in wich sport. The dropdown menu for the word cloud controls the network, too. User can select a year to see how team, sport and medal are related to each other. The search input helps locate a certain word well. It has an auto-complete feature so by typping in an initial letter, user can find a drop down of all the words start with that letter and select one. 
